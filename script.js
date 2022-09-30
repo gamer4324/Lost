@@ -537,7 +537,7 @@ function gameLoop() {
 	}
 
 
-	zoom = lerp(zoom,roomSize.x*2,0.1)
+	zoom = lerp(zoom,roomSize.x,0.1)
 	context.fillStyle = "black";
 	context.beginPath();
 	context.arc(player.position.x+mapOffset.x, player.position.y+mapOffset.y, zoom, 0, 2 * Math.PI);
