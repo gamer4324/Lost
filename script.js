@@ -471,7 +471,7 @@ function gameLoop() {
 	context.fillStyle = '#000000';
 	context.fillRect(mapOffset.x, mapOffset.y, roomSize.x*mapSize.x, roomSize.x*mapSize.y);
 	
-	
+	// draw map
 	for (let y in map.map){
 		for (let x in map.map[y]) {
 			var spot = map.get(x,y)
