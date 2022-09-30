@@ -221,24 +221,29 @@ class Grid {
 
 class bullet {
 	constructor (direction) {
-		this.position = player.position
+		this.position = new vector2(player.position.x,player.position.y)
 		this.direction = direction
+		this.speed = 5
 	}
-	draw() {
+	draw(pos) {
 		if (this.direction == 1) {
-			this.position.y -= 1
+			this.position.y -= this.speed
 		} if (this.direction == 2) {
-			this.position.x += 1
+			this.position.x += this.speed
 		} if (this.direction == 3) {
-			this.position.y += 1
+			this.position.y += this.speed
 		} if (this.direction == 4) {
-			this.position.x -= 1
+			this.position.x -= this.speed
 		}
-
-		context.fillStyle = 'Green';
-		context.beginPath();
-	    context.arc(this.position.x+canvas.width / 2 - roomSize.x/2 - camOffset.x, this.position.y+canvas.height / 2 - roomSize.y/2 - camOffset.y , roomSize.x/200, 0, DOUBLE_PI);
-	    context.fill();
+		var data = context.getImageData(this.position.x+canvas.width / 2 - roomSize.x/2 - camOffset.x, this.position.y+canvas.height / 2 - roomSize.y/2 - camOffset.y , 1, 1).data;
+		if (data[0] != 0 || data[1] != 0 || data[2] != 0){
+			context.fillStyle = 'Green';
+			context.beginPath();
+		    context.arc(this.position.x+canvas.width / 2 - roomSize.x/2 - camOffset.x, this.position.y+canvas.height / 2 - roomSize.y/2 - camOffset.y , roomSize.x/80, 0, DOUBLE_PI);
+		    context.fill();
+		} else {
+			bullets.splice(pos,1)
+		}
 	}
 }
 
@@ -270,12 +275,17 @@ var bullets = []
 	});
 
 	document.onkeydown = function(event) {
+		console.log(event.keyCode)
 		switch (event.keyCode) {
-			case 87: bullets.push(new bullet(1)); player.move = 1; def = true; break;
-			case 83: bullets.push(new bullet(3)); player.move = -1; def = true; break;
-			case 68: bullets.push(new bullet(2)); player.strafe = 1; def = true; break;
-			case 65: bullets.push(new bullet(4)); player.strafe = -1; def = true; break;
+			case 87: player.move = 1; def = true; break;
+			case 83: player.move = -1; def = true; break;
+			case 68: player.strafe = 1; def = true; break;
+			case 65: player.strafe = -1; def = true; break;
 			case 32: if (map.get(Math.floor(player.position.x / roomSize.x),Math.floor(player.position.y / roomSize.y)).roomData[1].length == 0) {floor++; zoom =0; gen();} break;
+			case 38: bullets.push(new bullet(1)); break;
+			case 39: bullets.push(new bullet(2)); break;
+			case 40: bullets.push(new bullet(3)); break;
+			case 37: bullets.push(new bullet(4)); break;
 		}
 	};
 
@@ -562,7 +572,7 @@ function gameLoop() {
 	}
 
 	for (let v in bullets) {
-		bullets[v].draw()
+		bullets[v].draw(v)
 	}
 
 	zoom = lerp(zoom,roomSize.x*2.5,0.04)
