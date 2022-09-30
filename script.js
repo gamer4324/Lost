@@ -507,8 +507,8 @@ function gameLoop() {
 	{
 		context.fillStyle = 'Red';
 		context.beginPath();
-    context.arc(player.position.x+mapOffset.x, player.position.y+mapOffset.y, roomSize.x/20, 0, DOUBLE_PI);
-    context.fill();
+	    context.arc(player.position.x+mapOffset.x, player.position.y+mapOffset.y, roomSize.x/20, 0, DOUBLE_PI);
+	    context.fill();
  	}
 	
 	// room updates
@@ -535,10 +535,10 @@ function gameLoop() {
 		}	
 	}
 
-	context.fillStyle = "grey";
+	context.fillStyle = "black";
 	context.beginPath();
-	context.arc(200, 200, 100, 0, 2 * Math.PI);
-	context.rect(400, 0, -400, 400);
+	context.arc(player.position.x+mapOffset.x, player.position.y+mapOffset.y, 50, 0, 2 * Math.PI);
+	context.rect(canvas.width, 0,-canvas.width,canvas.height);
 	context.fill();
 
 	setTimeout(gameLoop, cycleDelay);
