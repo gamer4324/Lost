@@ -237,6 +237,7 @@ var stop = 0
 var endRoom = 0
 var def = true
 var camOffset = new vector2()
+var zoom = 0
 
 // events
 {
@@ -250,7 +251,7 @@ var camOffset = new vector2()
 			case 83: player.move = -1; def = true; break;
 			case 68: player.strafe = 1; def = true; break;
 			case 65: player.strafe = -1; def = true; break;
-			case 32: if (map.get(Math.floor(player.position.x / roomSize.x),Math.floor(player.position.y / roomSize.y)).roomData[1].length == 0) {floor++; gen();} break;
+			case 32: if (map.get(Math.floor(player.position.x / roomSize.x),Math.floor(player.position.y / roomSize.y)).roomData[1].length == 0) {floor++; zoom =0; gen();} break;
 		}
 	};
 
@@ -535,9 +536,11 @@ function gameLoop() {
 		}	
 	}
 
+
+	zoom = lerp(zoom,roomSize.x,0.1)
 	context.fillStyle = "black";
 	context.beginPath();
-	context.arc(player.position.x+mapOffset.x, player.position.y+mapOffset.y, 50, 0, 2 * Math.PI);
+	context.arc(player.position.x+mapOffset.x, player.position.y+mapOffset.y, zoom, 0, 2 * Math.PI);
 	context.rect(canvas.width, 0,-canvas.width,canvas.height);
 	context.fill();
 
