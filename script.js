@@ -459,8 +459,8 @@ function gameLoop() {
 	// adjust the window size
 	canvas.width = window.innerWidth;
 	canvas.height = window.innerHeight;
-	roomSize.x = Math.floor(canvas.height/1.5)
-	roomSize.y = Math.floor(canvas.height/1.5)
+	// roomSize.x = Math.floor(canvas.height)
+	// roomSize.y = Math.floor(canvas.height)
 	camOffset.x = lerp(camOffset.x,Math.floor(player.position.x / roomSize.x) * roomSize.x,0.1)
 	camOffset.y = lerp(camOffset.y,Math.floor(player.position.y / roomSize.y) * roomSize.x,0.1)
 	var mapOffset = new vector2(canvas.width / 2 - roomSize.x/2 - camOffset.x ,canvas.height / 2 - roomSize.y/2 - camOffset.y)
