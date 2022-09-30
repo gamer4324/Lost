@@ -219,6 +219,29 @@ class Grid {
 	}
 }
 
+class bullet {
+	constructor (direction) {
+		this.position = player.position
+		this.direction = direction
+	}
+	draw() {
+		if (this.direction == 1) {
+			this.position.y -= 1
+		} if (this.direction == 2) {
+			this.position.x += 1
+		} if (this.direction == 3) {
+			this.position.y += 1
+		} if (this.direction == 4) {
+			this.position.x -= 1
+		}
+
+		context.fillStyle = 'Green';
+		context.beginPath();
+	    context.arc(this.position.x+canvas.width / 2 - roomSize.x/2 - camOffset.x, this.position.y+canvas.height / 2 - roomSize.y/2 - camOffset.y , roomSize.x/200, 0, DOUBLE_PI);
+	    context.fill();
+	}
+}
+
 // varibles
 var oldCycleTime = 0;
 var cycleCount = 0;
@@ -238,6 +261,7 @@ var endRoom = 0
 var def = true
 var camOffset = new vector2()
 var zoom = 0
+var bullets = []
 
 // events
 {
@@ -247,10 +271,10 @@ var zoom = 0
 
 	document.onkeydown = function(event) {
 		switch (event.keyCode) {
-			case 87: player.move = 1; def = true; break;
-			case 83: player.move = -1; def = true; break;
-			case 68: player.strafe = 1; def = true; break;
-			case 65: player.strafe = -1; def = true; break;
+			case 87: bullets.push(new bullet(1)); player.move = 1; def = true; break;
+			case 83: bullets.push(new bullet(3)); player.move = -1; def = true; break;
+			case 68: bullets.push(new bullet(2)); player.strafe = 1; def = true; break;
+			case 65: bullets.push(new bullet(4)); player.strafe = -1; def = true; break;
 			case 32: if (map.get(Math.floor(player.position.x / roomSize.x),Math.floor(player.position.y / roomSize.y)).roomData[1].length == 0) {floor++; zoom =0; gen();} break;
 		}
 	};
@@ -267,6 +291,7 @@ var zoom = 0
 
 // functions
 function lerp(val1,val2,amt) {
+
 	return (1 - amt) * val1 + amt * val2
 }
 
@@ -536,8 +561,11 @@ function gameLoop() {
 		}	
 	}
 
+	for (let v in bullets) {
+		bullets[v].draw()
+	}
 
-	zoom = lerp(zoom,roomSize.x*2.5,0.01)
+	zoom = lerp(zoom,roomSize.x*2.5,0.04)
 	context.fillStyle = "#0d0d0d";
 	context.beginPath();
 	context.arc(player.position.x+mapOffset.x, player.position.y+mapOffset.y, zoom, 0, 2 * Math.PI);
