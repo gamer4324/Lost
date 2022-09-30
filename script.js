@@ -12,8 +12,8 @@ const roomBoarder = 0.05;
 
 var base_image = new Image();
 // base_image.src = "../assests/images/exit.png";
-base_image.src = "https://www.dropbox.com/s/tqlwvkhc1xpjx0n/exit.png";
-base_image.crossOrigin = "Anonymous";
+base_image.src = "assests/images/exit.png";
+// base_image.crossOrigin = "Anonymous";
 
 //classes
 class vector2 {
