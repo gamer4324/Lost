@@ -1,8 +1,8 @@
 // constances
 const canvas = document.getElementById('screen');
 const context = canvas.getContext('2d');
-const WIDTH = 400, HALF_WIDTH = WIDTH/2;
-const HEIGHT = 400, HALF_HEIGHT = HEIGHT/2;
+const WIDTH = 400;
+const HEIGHT = 400;
 const DOUBLE_PI = 2 * Math.PI;
 const HALF_PI = Math.PI/2;
 const FPS = 60;
@@ -41,8 +41,8 @@ class rect {
 	draw(color = "Black") {
 		context.fillStyle = color;
 		context.fillRect(
-			canvas.width / 2 - HALF_WIDTH + this.position.x,
-			canvas.height / 2 - HALF_HEIGHT + this.position.y,
+			canvas.width / 2 - roomSize.x/2 + this.position.x,
+			canvas.height / 2 - roomSize.y/2 + this.position.y,
 			this.size.x, this.size.y);
 	}
 }
@@ -157,8 +157,8 @@ class room {
 		if (this.roomData[1].length == 0 && this.entered) {
 			var scale = new vector2(roomSize.x/2.5,roomSize.x/2.5)
 	  	context.drawImage(base_image, 
-	  		canvas.width / 2 - HALF_WIDTH + this.base.position.x - camOffset.x + roomSize.x/2 - scale.x/2,
-	  		canvas.height / 2 - HALF_HEIGHT + this.base.position.y - camOffset.y + roomSize.y/2 - scale.y/2,scale.x,scale.y);
+	  		canvas.width / 2 - roomSize.x/2 + this.base.position.x - camOffset.x + roomSize.x/2 - scale.x/2,
+	  		canvas.height / 2 - roomSize.y/2 + this.base.position.y - camOffset.y + roomSize.y/2 - scale.y/2,scale.x,scale.y);
 		}
 	}
 }
@@ -462,14 +462,14 @@ function gameLoop() {
 	camOffset.y = lerp(camOffset.y,Math.floor(player.position.y / roomSize.y) * roomSize.x,0.1)
 	canvas.width = window.innerWidth;
 	canvas.height = window.innerHeight;
-	var mapOffset = new vector2(canvas.width / 2 - HALF_WIDTH - camOffset.x ,canvas.height / 2 - HALF_HEIGHT - camOffset.y)
+	var mapOffset = new vector2(canvas.width / 2 - roomSize.x/2 - camOffset.x ,canvas.height / 2 - roomSize.y/2 - camOffset.y)
 
 	// clearing the screen
 	context.fillStyle = "#333333";
 	context.fillRect(0,0,canvas.width,canvas.height)
 
 	context.fillStyle = '#000000';
-	context.fillRect(mapOffset.x, mapOffset.y, WIDTH*mapSize.x, HEIGHT*mapSize.y);
+	context.fillRect(mapOffset.x, mapOffset.y, roomSize.x*mapSize.x, roomSize.x*mapSize.y);
 	
 	
 	for (let y in map.map){
