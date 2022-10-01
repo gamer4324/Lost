@@ -66,25 +66,25 @@ class room {
 			rec2.draw("#dadada")
 			for (let exit in this.roomData[1]) {
 				if (this.roomData[1][exit] == 1) {
-				  var pos = new vector2(this.base.position.x + roomSize.x / 2 - roomSize.x / 10  - camOffset.x,this.base.position.y - camOffset.y)
+				  var pos = new vector2(this.base.position.x + roomSize.x / 2 - roomSize.x / 20  - camOffset.x,this.base.position.y - camOffset.y)
 				  var size = new vector2(roomSize.x/10,roomSize.y/10)
 				  var rec = new rect(pos,size)
 				  rec.draw("#dadada")
 				}
 				if (this.roomData[1][exit] == 2) {
-				  var pos = new vector2(this.base.position.x + roomSize.x - roomSize.x / 10 - camOffset.x,this.base.position.y + roomSize.x / 2 - roomSize.y / 10 - camOffset.y)
+				  var pos = new vector2(this.base.position.x + roomSize.x - roomSize.x / 20 - camOffset.x,this.base.position.y + roomSize.x / 2 - roomSize.y / 20 - camOffset.y)
 				  var size = new vector2(roomSize.x/10,roomSize.y/10)
 				  var rec = new rect(pos,size)
 				  rec.draw("#dadada")
 				}
 				if (this.roomData[1][exit] == 3) {
-				  var pos = new vector2(this.base.position.x + roomSize.x / 2 - roomSize.x / 10 - camOffset.x,this.base.position.y + roomSize.y - roomSize.y / 10 - camOffset.y)
+				  var pos = new vector2(this.base.position.x + roomSize.x / 2 - roomSize.x / 20 - camOffset.x,this.base.position.y + roomSize.y - roomSize.y / 20 - camOffset.y)
 				  var size = new vector2(roomSize.x/10,roomSize.y/10)
 				  var rec = new rect(pos,size)
 				  rec.draw("#dadada")
 				}
 				if (this.roomData[1][exit] == 4) {
-				  var pos = new vector2(this.base.position.x - camOffset.x,this.base.position.y + roomSize.x / 2 - roomSize.y / 10 - camOffset.y)
+				  var pos = new vector2(this.base.position.x - camOffset.x,this.base.position.y + roomSize.x / 2 - roomSize.y / 20 - camOffset.y)
 				  var size = new vector2(roomSize.x/10,roomSize.y/10)
 				  var rec = new rect(pos,size)
 				  rec.draw("#dadada")
@@ -92,25 +92,25 @@ class room {
 			}
 			for (let exit in this.roomData[2]) {
 				if (this.roomData[2][exit] == 1) {
-				  var pos = new vector2(this.base.position.x+roomSize.x/2-roomSize.x/10 - camOffset.x,this.base.position.y - camOffset.y)
+				  var pos = new vector2(this.base.position.x+roomSize.x/2-roomSize.x/20 - camOffset.x,this.base.position.y - camOffset.y)
 				  var size = new vector2(roomSize.x/10,roomSize.y/10)
 				  var rec = new rect(pos,size)
 				  rec.draw("#dadada")
 				}
 				if (this.roomData[2][exit] == 2) {
-				  var pos = new vector2(this.base.position.x+roomSize.x-roomSize.x/10 - camOffset.x,this.base.position.y+roomSize.x/2-roomSize.y/10 - camOffset.y)
+				  var pos = new vector2(this.base.position.x+roomSize.x-roomSize.x/20 - camOffset.x,this.base.position.y+roomSize.x/2-roomSize.y/20 - camOffset.y)
 				  var size = new vector2(roomSize.x/10,roomSize.y/10)
 				  var rec = new rect(pos,size)
 				  rec.draw("#dadada")
 				}
 				if (this.roomData[2][exit] == 3) {
-				  var pos = new vector2(this.base.position.x+roomSize.x/2-roomSize.x/10 - camOffset.x,this.base.position.y+roomSize.y-roomSize.y/10 - camOffset.y)
+				  var pos = new vector2(this.base.position.x+roomSize.x/2-roomSize.x/20 - camOffset.x,this.base.position.y+roomSize.y-roomSize.y/20 - camOffset.y)
 				  var size = new vector2(roomSize.x/10,roomSize.y/10)
 				  var rec = new rect(pos,size)
 				  rec.draw("#dadada")
 				}
 				if (this.roomData[2][exit] == 4) {
-				  var pos = new vector2(this.base.position.x - camOffset.x,this.base.position.y+roomSize.x/2-roomSize.y/10 - camOffset.y)
+				  var pos = new vector2(this.base.position.x - camOffset.x,this.base.position.y+roomSize.x/2-roomSize.y/20 - camOffset.y)
 				  var size = new vector2(roomSize.x/10,roomSize.y/10)
 				  var rec = new rect(pos,size)
 				  rec.draw("#dadada")
@@ -128,25 +128,25 @@ class room {
 			rec2.draw("#1a1a1a")
 			for (let exit in this.roomData[2]) {
 				if (this.roomData[2][exit] == 1) {
-				  var pos = new vector2(this.base.position.x+roomSize.x/2-roomSize.x/10 - camOffset.x,this.base.position.y - camOffset.y)
+				  var pos = new vector2(this.base.position.x+roomSize.x/2-roomSize.x/20 - camOffset.x,this.base.position.y - camOffset.y)
 				  var size = new vector2(roomSize.x/10,roomSize.y/10)
 				  var rec = new rect(pos,size)
 				  rec.draw("#1a1a1a")
 				}
 				if (this.roomData[2][exit] == 2) {
-				  var pos = new vector2(this.base.position.x+roomSize.x-roomSize.x/10 - camOffset.x,this.base.position.y+roomSize.x/2-roomSize.y/10 - camOffset.y)
+				  var pos = new vector2(this.base.position.x+roomSize.x-roomSize.x/20 - camOffset.x,this.base.position.y+roomSize.x/2-roomSize.y/20 - camOffset.y)
 				  var size = new vector2(roomSize.x/10,roomSize.y/10)
 				  var rec = new rect(pos,size)
 				  rec.draw("#1a1a1a")
 				}
 				if (this.roomData[2][exit] == 3) {
-				  var pos = new vector2(this.base.position.x+roomSize.x/2-roomSize.x/10 - camOffset.x,this.base.position.y+roomSize.y-roomSize.y/10 - camOffset.y)
+				  var pos = new vector2(this.base.position.x+roomSize.x/2-roomSize.x/20 - camOffset.x,this.base.position.y+roomSize.y-roomSize.y/20 - camOffset.y)
 				  var size = new vector2(roomSize.x/10,roomSize.y/10)
 				  var rec = new rect(pos,size)
 				  rec.draw("#1a1a1a")
 				}
 				if (this.roomData[2][exit] == 4) {
-				  var pos = new vector2(this.base.position.x - camOffset.x,this.base.position.y+roomSize.x/2-roomSize.y/10 - camOffset.y)
+				  var pos = new vector2(this.base.position.x - camOffset.x,this.base.position.y+roomSize.x/2-roomSize.y/20 - camOffset.y)
 				  var size = new vector2(roomSize.x/10,roomSize.y/10)
 				  var rec = new rect(pos,size)
 				  rec.draw("#1a1a1a")
