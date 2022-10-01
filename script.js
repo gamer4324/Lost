@@ -267,6 +267,7 @@ var def = true
 var camOffset = new vector2()
 var zoom = 0
 var bullets = []
+var keys = [];
 
 // events
 {
@@ -274,29 +275,42 @@ var bullets = []
 		def = true
 	});
 
-	document.onkeydown = function(event) {
-		console.log(event.keyCode)
-		switch (event.keyCode) {
-			case 87: player.move = 1; def = true; break;
-			case 83: player.move = -1; def = true; break;
-			case 68: player.strafe = 1; def = true; break;
-			case 65: player.strafe = -1; def = true; break;
-			case 32: if (map.get(Math.floor(player.position.x / roomSize.x),Math.floor(player.position.y / roomSize.y)).roomData[1].length == 0) {floor++; zoom =0; gen();} break;
-			case 38: bullets.push(new bullet(1)); break;
-			case 39: bullets.push(new bullet(2)); break;
-			case 40: bullets.push(new bullet(3)); break;
-			case 37: bullets.push(new bullet(4)); break;
-		}
-	};
+	window.addEventListener("keydown",
+	    function(e){
+	        keys[e.keyCode] = true;
+	        checkCombinations(e);
+	    },
+	false);
 
-	document.onkeyup = function(event) {
-		switch (event.keyCode) {
-			case 87: 
-			case 83: player.move = 0; break;
-			case 68: 
-			case 65: player.strafe = 0; break;
-		}
-	};
+	window.addEventListener('keyup',
+	    function(e){
+	        keys[e.keyCode] = false;
+	    },
+	false);
+
+	// document.onkeydown = function(event) {
+	// 	console.log(event.keyCode)
+	// 	switch (event.keyCode) {
+	// 		case 87: player.move = 1; def = true; break;
+	// 		case 83: player.move = -1; def = true; break;
+	// 		case 68: player.strafe = 1; def = true; break;
+	// 		case 65: player.strafe = -1; def = true; break;
+	// 		case 32: if (map.get(Math.floor(player.position.x / roomSize.x),Math.floor(player.position.y / roomSize.y)).roomData[1].length == 0) {floor++; zoom =0; gen();} break;
+	// 		case 38: bullets.push(new bullet(1)); break;
+	// 		case 39: bullets.push(new bullet(2)); break;
+	// 		case 40: bullets.push(new bullet(3)); break;
+	// 		case 37: bullets.push(new bullet(4)); break;
+	// 	}
+	// };
+
+	// document.onkeyup = function(event) {
+	// 	switch (event.keyCode) {
+	// 		case 87: 
+	// 		case 83: player.move = 0; break;
+	// 		case 68: 
+	// 		case 65: player.strafe = 0; break;
+	// 	}
+	// };
 }
 
 // functions
@@ -505,7 +519,7 @@ function gameLoop() {
 
 	context.fillStyle = '#000000';
 	context.fillRect(mapOffset.x, mapOffset.y, roomSize.x*mapSize.x, roomSize.x*mapSize.y);
-	
+
 	// draw map
 	for (let y in map.map){
 		for (let x in map.map[y]) {
@@ -521,6 +535,18 @@ function gameLoop() {
 	
 	// player movement
 	{
+		player.move = 0
+		player.strafe = 0
+
+		if (keys[87]) player.move += 1
+		if (keys[83]) player.move -= 1
+		if (keys[68]) player.strafe += 1
+		if (keys[65]) player.strafe -= 1
+		if (keys[38]) bullets.push(1)
+		if (keys[39]) bullets.push(2)
+		if (keys[40]) bullets.push(3)
+		if (keys[37]) bullets.push(4)
+
 		if (player.move != 0){
 			player.position.y -= player.move / 16 * player.speed
 
