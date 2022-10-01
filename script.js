@@ -278,7 +278,6 @@ var keys = [];
 	window.addEventListener("keydown",
 	    function(e){
 	        keys[e.keyCode] = true;
-	        checkCombinations(e);
 	    },
 	false);
 
@@ -542,10 +541,17 @@ function gameLoop() {
 		if (keys[83]) player.move -= 1
 		if (keys[68]) player.strafe += 1
 		if (keys[65]) player.strafe -= 1
-		if (keys[38]) bullets.push(1)
-		if (keys[39]) bullets.push(2)
-		if (keys[40]) bullets.push(3)
-		if (keys[37]) bullets.push(4)
+
+		if (keys[38]) bullets.push(new bullet(1))
+		if (keys[39]) bullets.push(new bullet(2))
+		if (keys[40]) bullets.push(new bullet(3))
+		if (keys[37]) bullets.push(new bullet(4))
+
+		if (keys[32]) if (map.get(Math.floor(player.position.x / roomSize.x),Math.floor(player.position.y / roomSize.y)).roomData[1].length == 0) {
+			floor++; 
+			zoom =0; 
+			gen();
+		}
 
 		if (player.move != 0){
 			player.position.y -= player.move / 16 * player.speed
