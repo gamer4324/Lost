@@ -267,7 +267,10 @@ var def = true
 var camOffset = new vector2()
 var zoom = 0
 var bullets = []
-var keys = [];
+var keys = []
+var shootCount = 0
+var shootLimit = 60
+var db = false
 
 // events
 {
@@ -499,7 +502,7 @@ function gameLoop() {
 	var cycleTime = startTime - oldCycleTime;
 	oldCycleTime = startTime;
 	if (cycleCount % 60 == 0) fps_rate = Math.floor(1000 / cycleTime);
-
+	
 	//change the title
 	if (def && document.title != "Personal intrest game") {
 		document.title = "Personal intrest game"
@@ -534,6 +537,10 @@ function gameLoop() {
 	
 	// player movement
 	{
+		shootCount++
+		if (shootCount > shootLimit) shootCount = 0
+		if (shootCount % shootLimit == 0) db = false
+		
 		player.move = 0
 		player.strafe = 0
 
@@ -542,10 +549,10 @@ function gameLoop() {
 		if (keys[68]) player.strafe += 1
 		if (keys[65]) player.strafe -= 1
 
-		if (keys[38]) bullets.push(new bullet(1))
-		if (keys[39]) bullets.push(new bullet(2))
-		if (keys[40]) bullets.push(new bullet(3))
-		if (keys[37]) bullets.push(new bullet(4))
+		if (keys[38] && !db) {db = true; bullets.push(new bullet(1))}
+		if (keys[39] && !db) {db = true; bullets.push(new bullet(2))}
+		if (keys[40] && !db) {db = true; bullets.push(new bullet(3))}
+		if (keys[37] && !db) {db = true; bullets.push(new bullet(4))}
 
 		if (keys[32]) if (map.get(Math.floor(player.position.x / roomSize.x),Math.floor(player.position.y / roomSize.y)).roomData[1].length == 0) {
 			floor++; 
