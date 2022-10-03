@@ -171,7 +171,7 @@ class Player {
 		this.angle = Math.PI;
 		this.strafe = 0;
 		this.move = 0;
-		this.speed = roomSize.x/2;
+		this.speed = roomSize.x/8;
 	}
 }
 
