@@ -169,7 +169,7 @@ class room {
 		if (this.roomData[1].length != 0 && this.roomData[2].length != 0 && this.entered) {
 			for (let v in this.roomData[0]) {
 				var scale = new vector2(roomSize.x/2.5,roomSize.x/2.5)
-			  	context.drawImage(this.roomData[0][v], 
+			  	context.drawImage(this.roomData[0][v].img, 
 			  		canvas.width / 2 - roomSize.x/2 + this.base.position.x - camOffset.x + roomSize.x/2 - scale.x/2,
 			  		canvas.height / 2 - roomSize.y/2 + this.base.position.y - camOffset.y + roomSize.y/2 - scale.y/2,scale.x,scale.y);
 			}
