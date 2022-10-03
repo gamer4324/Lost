@@ -9,11 +9,16 @@ const FPS = 60;
 const cycleDelay = Math.floor(1000 / FPS);
 const roomBoarder = 0.05;
 
-
+// images
 var base_image = new Image();
-// base_image.src = "../assests/images/exit.png";
 base_image.src = "assests/images/exit.png";
-// base_image.crossOrigin = "Anonymous";
+
+var decorationImages = []
+for (let img = 1; img <= 6; img++) {
+	var curImage = new Image();
+	curImage.src = "assests/images/decorations/"+img+".png";
+	decorationImages.push(curImage)
+}
 
 //classes
 class vector2 {
@@ -57,7 +62,6 @@ class room {
 	}
 	
 	draw(){
-		// this.base.draw("Black")
 
 		var rec2 = new rect(new vector2(this.base.position.x + this.base.size.x * roomBoarder - camOffset.x,this.base.position.y + this.base.size.y * roomBoarder - camOffset.y), new vector2(roomSize.x-roomSize.x*(roomBoarder*2),roomSize.y-roomSize.y*(roomBoarder*2)))
 		
@@ -154,11 +158,21 @@ class room {
 			}
 		} 
 
+		//decorations
 		if (this.roomData[1].length == 0 && this.entered) {
 			var scale = new vector2(roomSize.x/2.5,roomSize.x/2.5)
-	  	context.drawImage(base_image, 
-	  		canvas.width / 2 - roomSize.x/2 + this.base.position.x - camOffset.x + roomSize.x/2 - scale.x/2,
-	  		canvas.height / 2 - roomSize.y/2 + this.base.position.y - camOffset.y + roomSize.y/2 - scale.y/2,scale.x,scale.y);
+		  	context.drawImage(base_image, 
+		  		canvas.width / 2 - roomSize.x/2 + this.base.position.x - camOffset.x + roomSize.x/2 - scale.x/2,
+		  		canvas.height / 2 - roomSize.y/2 + this.base.position.y - camOffset.y + roomSize.y/2 - scale.y/2,scale.x,scale.y);
+		}
+
+		if (this.roomData[1].length != 0 && this.roomData[2].length != 0 && this.entered) {
+			for (let v in this.roomData[0]) {
+				var scale = new vector2(roomSize.x/2.5,roomSize.x/2.5)
+			  	context.drawImage(this.roomData[0][v], 
+			  		canvas.width / 2 - roomSize.x/2 + this.base.position.x - camOffset.x + roomSize.x/2 - scale.x/2,
+			  		canvas.height / 2 - roomSize.y/2 + this.base.position.y - camOffset.y + roomSize.y/2 - scale.y/2,scale.x,scale.y);
+			}
 		}
 	}
 }
@@ -244,6 +258,14 @@ class bullet {
 		} else {
 			bullets.splice(pos,1)
 		}
+	}
+}
+
+class deco {
+	constructor(img = 0,position) {
+		this.position = position
+		this.img = img
+		if (img == 0) this.img = decorationImages[randInt(0,decorationImages.length-1)]
 	}
 }
 
@@ -344,7 +366,7 @@ function randInt(min,max) {
 	return min + Math.floor(Math.random() * (max+1-min));
 }
 
-function makeRoom(name, position, exitDoors = [1,2], entrenceDoors = [3,4], decorations = []) {
+function makeRoom(name, position, exitDoors = [1,2], entrenceDoors = [3,4], decorations = [new deco(0,new vector2(roomSize.x/2,roomSize.y/2))]) {
 
 	return new room(name, new rect(new vector2(roomSize.x*position.x,roomSize.y*position.y),new vector2(roomSize.x,roomSize.y)), [decorations, exitDoors, entrenceDoors])	
 };
