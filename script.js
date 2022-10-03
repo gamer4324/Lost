@@ -16,7 +16,7 @@ base_image.src = "assests/images/exit.png";
 var decorationImages = []
 for (let img = 1; img <= 6; img++) {
 	var curImage = new Image();
-	curImage.src = "assests/images/decorations/"+img+".png";
+	curImage.src = "assests/decorations/"+img+".png";
 	decorationImages.push(curImage)
 }
 
