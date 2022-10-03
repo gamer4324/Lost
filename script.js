@@ -555,15 +555,16 @@ function gameLoop() {
 		if (keys[68]) player.strafe += 1
 		if (keys[65]) player.strafe -= 1
 
-		if (keys[38] && !db) {db = true; bullets.push(new bullet(1))}
-		if (keys[39] && !db) {db = true; bullets.push(new bullet(2))}
-		if (keys[40] && !db) {db = true; bullets.push(new bullet(3))}
-		if (keys[37] && !db) {db = true; bullets.push(new bullet(4))}
+		if (keys[38] && !db) {db = true; bullets.push(new bullet(1)); curShake += 1}
+		if (keys[39] && !db) {db = true; bullets.push(new bullet(2)); curShake += 1}
+		if (keys[40] && !db) {db = true; bullets.push(new bullet(3)); curShake += 1}
+		if (keys[37] && !db) {db = true; bullets.push(new bullet(4)); curShake += 1}
 
 		if (keys[32]) if (map.get(Math.floor(player.position.x / roomSize.x),Math.floor(player.position.y / roomSize.y)).roomData[1].length == 0) {
 			floor++; 
 			zoom =0; 
 			gen();
+			curShake = 50;
 		}
 
 		if (player.move != 0){
