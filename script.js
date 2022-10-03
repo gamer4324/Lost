@@ -271,6 +271,8 @@ var keys = []
 var shootCount = 0
 var shootLimit = 60
 var db = false
+var shake = 0
+var curShake = 0
 
 // events
 {
@@ -508,11 +510,15 @@ function gameLoop() {
 		document.title = "Personal intrest game"
 	}
 
-	// adjust the window size
+	// adjust the window size and camera position
+	if (shake > curShake) curShake = lerp(curShake,shake,0.01)
+	if (shake < curShake) curShake = lerp(curShake,shake,0.1)
+	
+	
 	canvas.width = window.innerWidth;
 	canvas.height = window.innerHeight;
-	camOffset.x = lerp(camOffset.x,Math.floor(player.position.x / roomSize.x) * roomSize.x,0.1)
-	camOffset.y = lerp(camOffset.y,Math.floor(player.position.y / roomSize.y) * roomSize.x,0.1)
+	camOffset.x = lerp(camOffset.x,Math.floor(player.position.x / roomSize.x) * roomSize.x,0.1)+randInt(-curShake,curShake)
+	camOffset.y = lerp(camOffset.y,Math.floor(player.position.y / roomSize.y) * roomSize.x,0.1)+randInt(-curShake,curShake)
 	var mapOffset = new vector2(canvas.width / 2 - roomSize.x/2 - camOffset.x ,canvas.height / 2 - roomSize.y/2 - camOffset.y)
 
 	// clearing the screen
