@@ -186,6 +186,8 @@ class Player {
 		this.strafe = 0;
 		this.move = 0;
 		this.speed = roomSize.x/8;
+		this.vx = 0
+		this.vy = 0
 	}
 }
 
@@ -298,6 +300,11 @@ var curShake = 0
 
 // events
 {
+	// document.addEventListener("click", (event) => {
+	// 	player.vx += Math.sin(Math.atan2(event.clientX-player.position.x,event.clientY-player.position.y))*5;
+	// 	player.vy += Math.cos(Math.atan2(event.clientX-player.position.x,event.clientY-player.position.y))*5
+	// });
+
 	document.addEventListener('mousemove', (event) => {
 		def = true
 	});
@@ -589,6 +596,21 @@ function gameLoop() {
 			curShake = 50;
 		}
 
+		player.vx = lerp(player.vx,0,0.05)
+		player.vy = lerp(player.vy,0,0.05)
+
+		player.position.x += player.vx
+		var data = context.getImageData(player.position.x+mapOffset.x, player.position.y+mapOffset.y, 1, 1).data;
+		if (data[0] == 0 && data[1] == 0 && data[2] == 0){
+			player.position.x -= player.vx
+		}
+
+		player.position.y += player.vy
+		var data = context.getImageData(player.position.x+mapOffset.x, player.position.y+mapOffset.y, 1, 1).data;
+		if (data[0] == 0 && data[1] == 0 && data[2] == 0){
+			player.position.y -= player.vy
+		}
+
 		if (player.move != 0){
 			player.position.y -= player.move / 16 * player.speed
 
@@ -657,3 +679,4 @@ function gameLoop() {
 	context.fillText('FPS: ' + fps_rate, 0, 50);
 }
 window.onload = function() {gen(); console.log("loaded"); gameLoop(); }
+	
