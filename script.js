@@ -13,8 +13,9 @@ const roomBoarder = 0.05;
 var base_image = new Image();
 base_image.src = "assests/images/exit.png";
 
+var imgages = parseInt(prompt("how many images"))
 var decorationImages = []
-for (let img = 1; img <= 6; img++) {
+for (let img = 1; img <= imgages; img++) {
 	var curImage = new Image();
 	curImage.src = "assests/decorations/"+img+".png";
 	decorationImages.push(curImage)
