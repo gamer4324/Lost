@@ -676,7 +676,7 @@ function gameLoop() {
 	}
 
 	for (let v in enemys) {
-		enemys[v].draw()
+		enemys[v].update()
 	}
 
 	for (let v in bullets) {
