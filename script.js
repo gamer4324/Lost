@@ -13,7 +13,7 @@ const roomBoarder = 0.05;
 var base_image = new Image();
 base_image.src = "assests/images/exit.png";
 
-var imgages = parseInt(prompt("how many images"))
+var imgages = 1
 var decorationImages = []
 for (let img = 1; img <= imgages; img++) {
 	var curImage = new Image();
@@ -22,6 +22,18 @@ for (let img = 1; img <= imgages; img++) {
 }
 
 //classes
+class runner {
+	constructor () {
+		this.speed = player.speed*0.9
+		this.position = new vector2()
+		this.img = new Image();
+		this.img.src = "assests/enemys/runner.png";
+	}
+
+	update() {
+		context.drawImage(this.img,this.position.x,this.position.y)
+	}
+}
 class vector2 {
 	constructor(p1=0,p2=0) {
 		this.x = p1;
@@ -298,6 +310,7 @@ var shootLimit = 60
 var db = false
 var shake = 0
 var curShake = 0
+var enemys = [new runner()]
 
 // events
 {
@@ -660,6 +673,10 @@ function gameLoop() {
 				nextRoom = map.get(plrX-1,plrY)
 			}
 		}	
+	}
+
+	for (let v in enemys) {
+		enemys[v].draw()
 	}
 
 	for (let v in bullets) {
