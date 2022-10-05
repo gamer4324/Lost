@@ -311,6 +311,7 @@ var db = false
 var shake = 0
 var curShake = 0
 var enemys = [new runner()]
+var mapOffset = new vector2()
 
 // events
 {
@@ -562,7 +563,7 @@ function gameLoop() {
 	canvas.height = window.innerHeight;
 	camOffset.x = lerp(camOffset.x,Math.floor(player.position.x / roomSize.x) * roomSize.x,0.1)+randInt(-curShake,curShake)
 	camOffset.y = lerp(camOffset.y,Math.floor(player.position.y / roomSize.y) * roomSize.x,0.1)+randInt(-curShake,curShake)
-	var mapOffset = new vector2(canvas.width / 2 - roomSize.x/2 - camOffset.x ,canvas.height / 2 - roomSize.y/2 - camOffset.y)
+	mapOffset = new vector2(canvas.width / 2 - roomSize.x/2 - camOffset.x ,canvas.height / 2 - roomSize.y/2 - camOffset.y)
 
 	// clearing the screen
 	context.fillStyle = "#333333";
