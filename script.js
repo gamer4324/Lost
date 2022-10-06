@@ -28,10 +28,12 @@ class runner {
 		this.position = new vector2()
 		this.img = new Image();
 		this.img.src = "assests/enemys/runner.png";
+		this.size = vector2(roomSize.x/10,roomSize.y/10)
 	}
 
 	update() {
-		context.drawImage(this.img,this.position.x,this.position.y)
+		this.position = lerpV2(this.position,player.position,0.1)
+		context.drawImage(this.img,this.position.x + mapOffset.x - this.size.x / 2,this.position.y + mapOffset.y - this.size.y/2,this.size.x,this.size.y)
 	}
 }
 class vector2 {
@@ -335,33 +337,14 @@ var mapOffset = new vector2()
 	        keys[e.keyCode] = false;
 	    },
 	false);
-
-	// document.onkeydown = function(event) {
-	// 	console.log(event.keyCode)
-	// 	switch (event.keyCode) {
-	// 		case 87: player.move = 1; def = true; break;
-	// 		case 83: player.move = -1; def = true; break;
-	// 		case 68: player.strafe = 1; def = true; break;
-	// 		case 65: player.strafe = -1; def = true; break;
-	// 		case 32: if (map.get(Math.floor(player.position.x / roomSize.x),Math.floor(player.position.y / roomSize.y)).roomData[1].length == 0) {floor++; zoom =0; gen();} break;
-	// 		case 38: bullets.push(new bullet(1)); break;
-	// 		case 39: bullets.push(new bullet(2)); break;
-	// 		case 40: bullets.push(new bullet(3)); break;
-	// 		case 37: bullets.push(new bullet(4)); break;
-	// 	}
-	// };
-
-	// document.onkeyup = function(event) {
-	// 	switch (event.keyCode) {
-	// 		case 87: 
-	// 		case 83: player.move = 0; break;
-	// 		case 68: 
-	// 		case 65: player.strafe = 0; break;
-	// 	}
-	// };
 }
 
 // functions
+function lerpV2(val1,val2,amt) {
+
+	return new vector2((1 - amt) * val1.x + amt * val2.x,(1 - amt) * val1.y + amt * val2.y)
+}
+
 function lerp(val1,val2,amt) {
 
 	return (1 - amt) * val1 + amt * val2
