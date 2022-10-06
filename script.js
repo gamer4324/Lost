@@ -34,6 +34,7 @@ class runner {
 	update() {
 		console.log(Math.atan2(this.position.x - player.position.x,this.position.y - player.position.y))
 		// this.position = lerpV2(this.position,player.position,0.1)
+
 		context.drawImage(this.img,this.position.x + mapOffset.x - this.size.x / 2,this.position.y + mapOffset.y - this.size.y/2,this.size.x,this.size.y)
 	}
 }
