@@ -28,11 +28,12 @@ class runner {
 		this.position = new vector2()
 		this.img = new Image();
 		this.img.src = "assests/enemys/runner.png";
-		this.size = vector2(roomSize.x/10,roomSize.y/10)
+		this.size = new vector2(roomSize.x/10,roomSize.y/10)
 	}
 
 	update() {
-		this.position = lerpV2(this.position,player.position,0.1)
+		console.log(Math.atan2(this.position.x - player.position.x,this.position.y - player.position.y))
+		// this.position = lerpV2(this.position,player.position,0.1)
 		context.drawImage(this.img,this.position.x + mapOffset.x - this.size.x / 2,this.position.y + mapOffset.y - this.size.y/2,this.size.x,this.size.y)
 	}
 }
