@@ -24,7 +24,7 @@ for (let img = 1; img <= imgages; img++) {
 //classes
 class runner {
 	constructor () {
-		this.speed = player.speed*0.9
+		this.speed = player.speed*0.9+randInt(-25,25)
 		this.position = new vector2()
 		this.img = new Image();
 		this.img.src = "assests/enemys/runner.png";
@@ -32,9 +32,14 @@ class runner {
 	}
 
 	update() {
-		console.log(Math.atan2(this.position.x - player.position.x,this.position.y - player.position.y))
-		// this.position = lerpV2(this.position,player.position,0.1)
-
+		if (((this.position.x-player.position.x)**2+(this.position.y-player.position.y)**2)**0.5 >= (this.size.y+this.size.x)/2) {
+			this.position.x -= Math.sin(Math.atan2(this.position.x - player.position.x,this.position.y - player.position.y))/16*this.speed
+			this.position.y -= Math.cos(Math.atan2(this.position.x - player.position.x,this.position.y - player.position.y))/16*this.speed
+		} else {
+			player.vx -= Math.sin(Math.atan2(this.position.x - player.position.x,this.position.y - player.position.y))/16*this.speed/4
+			player.vy -= Math.cos(Math.atan2(this.position.x - player.position.x,this.position.y - player.position.y))/16*this.speed/4
+			curShake = 1
+		}
 		context.drawImage(this.img,this.position.x + mapOffset.x - this.size.x / 2,this.position.y + mapOffset.y - this.size.y/2,this.size.x,this.size.y)
 	}
 }
