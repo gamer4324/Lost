@@ -43,6 +43,7 @@ class runner {
 		context.drawImage(this.img,this.position.x + mapOffset.x - this.size.x / 2,this.position.y + mapOffset.y - this.size.y/2,this.size.x,this.size.y)
 	}
 }
+
 class vector2 {
 	constructor(p1=0,p2=0) {
 		this.x = p1;
@@ -319,15 +320,17 @@ var shootLimit = 60
 var db = false
 var shake = 0
 var curShake = 0
-var enemys = [new runner()]
+var enemys = []
 var mapOffset = new vector2()
+var MaxDash = roomSize.x/10
+var look = 0
 
 // events
 {
-	// document.addEventListener("click", (event) => {
-	// 	player.vx += Math.sin(Math.atan2(event.clientX-player.position.x,event.clientY-player.position.y))*5;
-	// 	player.vy += Math.cos(Math.atan2(event.clientX-player.position.x,event.clientY-player.position.y))*5
-	// });
+	document.addEventListener("mousemove", (event) => {
+		mouse.x = event.x
+		mouse.y = event.y
+	});
 
 	document.addEventListener('mousemove', (event) => {
 		def = true
@@ -599,6 +602,26 @@ function gameLoop() {
 			zoom =0; 
 			gen();
 			curShake = 50;
+		}
+
+		if (keys[69]) {
+			look = Math.atan2(mouse.x-(player.position.x+mapOffset.x),mouse.y-(player.position.y+mapOffset.y))
+			for (let i = 1; i <= MaxDash; i++) {
+				var rayX = Math.sin(look)*i+player.position.x+mapOffset.x
+				var rayY = Math.cos(look)*i+player.position.y+mapOffset.y
+				var data = context.getImageData(rayX,rayY, 1, 1).data;
+				if (data[0] == 0 && data[1] == 0 && data[2] == 0){
+					player.vx += Math.sin(look)*(i-1)/8
+					player.vy += Math.cos(look)*(i-1)/8
+					break
+				} else {
+					if (i==MaxDash) {
+						player.vx += Math.sin(look)*MaxDash/8
+						player.vy += Math.cos(look)*MaxDash/8
+					}
+				}
+			}
+			keys[69] = false
 		}
 
 		player.vx = lerp(player.vx,0,0.05)
