@@ -611,17 +611,38 @@ function gameLoop() {
 				var rayY = Math.cos(look)*i+player.position.y+mapOffset.y
 				var data = context.getImageData(rayX,rayY, 1, 1).data;
 				if (data[0] == 0 && data[1] == 0 && data[2] == 0){
-					player.vx += Math.sin(look)*(i-1)/8
-					player.vy += Math.cos(look)*(i-1)/8
+					player.position.x += Math.sin(look)*(i-1)
+					player.position.y += Math.cos(look)*(i-1)
 					break
 				} else {
 					if (i==MaxDash) {
-						player.vx += Math.sin(look)*MaxDash/8
-						player.vy += Math.cos(look)*MaxDash/8
+						player.position.x += Math.sin(look)*MaxDash
+						player.position.y += Math.cos(look)*MaxDash
 					}
 				}
 			}
 			keys[69] = false
+		}
+		
+		look = Math.atan2(mouse.x-(player.position.x+mapOffset.x),mouse.y-(player.position.y+mapOffset.y))
+		for (let i = 1; i <= MaxDash; i++) {
+			var rayX = Math.sin(look)*i+player.position.x+mapOffset.x
+			var rayY = Math.cos(look)*i+player.position.y+mapOffset.y
+			var data = context.getImageData(rayX,rayY, 1, 1).data;
+			if (data[0] == 0 && data[1] == 0 && data[2] == 0){
+				context.fillStyle = 'Green';
+				context.beginPath();
+				context.arc(player.position.x+mapOffset.x + Math.sin(look)*(i-1),player.position.y+mapOffset.y + Math.cos(look)*(i-1), roomSize.x/100, 0, DOUBLE_PI);
+				context.fill()
+				break
+			} else {
+				if (i==MaxDash) {
+					context.fillStyle = 'Green';
+					context.beginPath();
+					context.arc(player.position.x+mapOffset.x + Math.sin(look)*(MaxDash),player.position.y+mapOffset.y + Math.cos(look)*(MaxDash), roomSize.x/100, 0, DOUBLE_PI);
+					context.fill()
+				}
+			}
 		}
 
 		player.vx = lerp(player.vx,0,0.05)
