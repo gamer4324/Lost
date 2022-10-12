@@ -324,6 +324,8 @@ var enemys = []
 var mapOffset = new vector2()
 var MaxDash = roomSize.x/10
 var look = 0
+var plrX = 0
+var plrY = 0
 
 // events
 {
@@ -345,6 +347,24 @@ var look = 0
 	window.addEventListener('keyup',
 	    function(e){
 	        keys[e.keyCode] = false;
+	        if (e.keyCode == 69) {
+				look = Math.atan2(mouse.x-(player.position.x+mapOffset.x),mouse.y-(player.position.y+mapOffset.y))
+				for (let i = 1; i <= MaxDash; i++) {
+					var rayX = Math.sin(look)*i+player.position.x+mapOffset.x
+					var rayY = Math.cos(look)*i+player.position.y+mapOffset.y
+					var data = context.getImageData(rayX,rayY, 1, 1).data;
+					if (data[0] == 0 && data[1] == 0 && data[2] == 0){
+						player.position.x += Math.sin(look)*(i-1)
+						player.position.y += Math.cos(look)*(i-1)
+						break
+					} else {
+						if (i==MaxDash) {
+							player.position.x += Math.sin(look)*(MaxDash)
+							player.position.y += Math.cos(look)*(MaxDash)
+						}
+					}
+				}
+			}
 	    },
 	false);
 }
@@ -611,36 +631,18 @@ function gameLoop() {
 				var rayY = Math.cos(look)*i+player.position.y+mapOffset.y
 				var data = context.getImageData(rayX,rayY, 1, 1).data;
 				if (data[0] == 0 && data[1] == 0 && data[2] == 0){
-					player.position.x += Math.sin(look)*(i-1)
-					player.position.y += Math.cos(look)*(i-1)
+					context.fillStyle = 'Green';
+					context.beginPath();
+					context.arc(player.position.x+mapOffset.x + Math.sin(look)*(i-1),player.position.y+mapOffset.y + Math.cos(look)*(i-1), roomSize.x/100, 0, DOUBLE_PI);
+					context.fill()
 					break
 				} else {
 					if (i==MaxDash) {
-						player.position.x += Math.sin(look)*MaxDash
-						player.position.y += Math.cos(look)*MaxDash
+						context.fillStyle = 'Green';
+						context.beginPath();
+						context.arc(player.position.x+mapOffset.x + Math.sin(look)*(MaxDash),player.position.y+mapOffset.y + Math.cos(look)*(MaxDash), roomSize.x/100, 0, DOUBLE_PI);
+						context.fill()
 					}
-				}
-			}
-			keys[69] = false
-		}
-		
-		look = Math.atan2(mouse.x-(player.position.x+mapOffset.x),mouse.y-(player.position.y+mapOffset.y))
-		for (let i = 1; i <= MaxDash; i++) {
-			var rayX = Math.sin(look)*i+player.position.x+mapOffset.x
-			var rayY = Math.cos(look)*i+player.position.y+mapOffset.y
-			var data = context.getImageData(rayX,rayY, 1, 1).data;
-			if (data[0] == 0 && data[1] == 0 && data[2] == 0){
-				context.fillStyle = 'Green';
-				context.beginPath();
-				context.arc(player.position.x+mapOffset.x + Math.sin(look)*(i-1),player.position.y+mapOffset.y + Math.cos(look)*(i-1), roomSize.x/100, 0, DOUBLE_PI);
-				context.fill()
-				break
-			} else {
-				if (i==MaxDash) {
-					context.fillStyle = 'Green';
-					context.beginPath();
-					context.arc(player.position.x+mapOffset.x + Math.sin(look)*(MaxDash),player.position.y+mapOffset.y + Math.cos(look)*(MaxDash), roomSize.x/100, 0, DOUBLE_PI);
-					context.fill()
 				}
 			}
 		}
@@ -688,8 +690,8 @@ function gameLoop() {
 	
 	// room updates
 	{
-		var plrX = Math.floor(player.position.x / roomSize.x)
-		var plrY = Math.floor(player.position.y / roomSize.y)
+		plrX = Math.floor(player.position.x / roomSize.x)
+		plrY = Math.floor(player.position.y / roomSize.y)
 		if (nextRoom) nextRoom.next = false
 		if (map.get(plrX,plrY) != 0) {
 			map.get(plrX,plrY).entered = true
