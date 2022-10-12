@@ -13,6 +13,9 @@ const roomBoarder = 0.05;
 var base_image = new Image();
 base_image.src = "assests/images/exit.png";
 
+var startInfo = new Image()
+startInfo.src = "assests/images/start.png";
+
 var imgages = 1
 var decorationImages = []
 for (let img = 1; img <= imgages; img++) {
@@ -85,7 +88,6 @@ class room {
 	}
 	
 	draw(){
-
 		var rec2 = new rect(new vector2(this.base.position.x + this.base.size.x * roomBoarder - camOffset.x,this.base.position.y + this.base.size.y * roomBoarder - camOffset.y), new vector2(roomSize.x-roomSize.x*(roomBoarder*2),roomSize.y-roomSize.y*(roomBoarder*2)))
 		
 		// entered
@@ -262,7 +264,7 @@ class bullet {
 	constructor (direction) {
 		this.position = new vector2(player.position.x,player.position.y)
 		this.direction = direction
-		this.speed = 5
+		this.speed = roomSize.x/20
 	}
 	draw(pos) {
 		if (this.direction == 1) {
@@ -301,8 +303,7 @@ var fps_rate = '...';
 var mouse =  new vector2();
 var mapSize = new vector2(10,10);
 var map = new Grid(mapSize,0)
-var scaleTest = prompt("Size:","400")
-var roomSize = new vector2(Number(scaleTest),Number(scaleTest));
+var roomSize = new vector2(WIDTH,HEIGHT);
 var player = new Player()
 var floor = 1
 var roomsAmt = floor*3
@@ -587,15 +588,20 @@ function gameLoop() {
 	context.fillRect(mapOffset.x, mapOffset.y, roomSize.x*mapSize.x, roomSize.x*mapSize.y);
 
 	// draw map
-	for (let y in map.map){
-		for (let x in map.map[y]) {
-			var spot = map.get(x,y)
-			if (spot != 0) {
-				spot.draw()
-			} else {
-				var rec2 = new rect(new vector2(x * roomSize.x + roomSize.x * roomBoarder - camOffset.x,y * roomSize.y + roomSize.x * roomBoarder - camOffset.y), new vector2(roomSize.x-roomSize.x*(roomBoarder*2),roomSize.y-roomSize.y*(roomBoarder*2)))
-				rec2.draw("#050505")
+	{
+		for (let y in map.map){
+			for (let x in map.map[y]) {
+				var spot = map.get(x,y)
+				if (spot != 0) {
+					spot.draw()
+				} else {
+					var rec2 = new rect(new vector2(x * roomSize.x + roomSize.x * roomBoarder - camOffset.x,y * roomSize.y + roomSize.x * roomBoarder - camOffset.y), new vector2(roomSize.x-roomSize.x*(roomBoarder*2),roomSize.y-roomSize.y*(roomBoarder*2)))
+					rec2.draw("#050505")
+				}
 			}
+		}
+		if (floor == 1) {
+			context.drawImage(startInfo,canvas.width / 2 - roomSize.x/2 + roomSize.x * roomBoarder - camOffset.x,canvas.height / 2 - roomSize.y/2 +roomSize.y * roomBoarder - camOffset.y,roomSize.x-roomSize.x*(roomBoarder*2),roomSize.y-roomSize.y*(roomBoarder*2))
 		}
 	}
 	
