@@ -575,6 +575,9 @@ function gameLoop() {
 	oldCycleTime = startTime;
 	if (cycleCount % 60 == 0) fps_rate = Math.floor(1000 / cycleTime);
 	
+	canvas.width = window.innerWidth;
+	canvas.height = window.innerHeight;
+	
 	if (menu) {
 		context.fillStyle = "#3D3D90";
 		context.fillRect(0,0,canvas.width,canvas.height)
@@ -591,9 +594,6 @@ function gameLoop() {
 		if (shake > curShake) curShake = lerp(curShake,shake,0.01)
 		if (shake < curShake) curShake = lerp(curShake,shake,0.1)
 		
-		
-		canvas.width = window.innerWidth;
-		canvas.height = window.innerHeight;
 		camOffset.x = lerp(camOffset.x,Math.floor(player.position.x / roomSize.x) * roomSize.x,0.1)+randInt(-curShake,curShake)
 		camOffset.y = lerp(camOffset.y,Math.floor(player.position.y / roomSize.y) * roomSize.x,0.1)+randInt(-curShake,curShake)
 		mapOffset = new vector2(canvas.width / 2 - roomSize.x/2 - camOffset.x ,canvas.height / 2 - roomSize.y/2 - camOffset.y)
@@ -709,8 +709,8 @@ function gameLoop() {
 		{
 			context.fillStyle = 'Red';
 			context.beginPath();
-		    context.arc(player.position.x+mapOffset.x, player.position.y+mapOffset.y, roomSize.x/20, 0, DOUBLE_PI);
-		    context.fill();
+			context.arc(player.position.x+mapOffset.x, player.position.y+mapOffset.y, roomSize.x/20, 0, DOUBLE_PI);
+			context.fill();
 	 	}
 		
 		// room updates
