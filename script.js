@@ -213,6 +213,7 @@ class Player {
 		this.speed = roomSize.x/8;
 		this.vx = 0
 		this.vy = 0
+		this.health = 100
 	}
 }
 
@@ -585,6 +586,9 @@ function gameLoop() {
 		context.fillStyle = "#1D3F6E";
 		context.fillRect(canvas.width/2-100,canvas.height/2-30,200,60)
 	} else {
+		if (cycleCount == 0 && player.health < 99) {
+			player.health+=0.1
+		}
 		//change the title
 		if (def && document.title != "Personal intrest game") {
 			document.title = "Personal intrest game"
@@ -707,7 +711,7 @@ function gameLoop() {
 		
 		// draw player
 		{
-			context.fillStyle = 'Red';
+			context.fillStyle = "#"+Math.floor(lerp(255,16,player.health/100)).toString(16)+Math.floor(lerp(16,255,player.health/100)).toString(16)+"00";
 			context.beginPath();
 			context.arc(player.position.x+mapOffset.x, player.position.y+mapOffset.y, roomSize.x/20, 0, DOUBLE_PI);
 			context.fill();
