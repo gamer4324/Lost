@@ -10,6 +10,15 @@ const HALF_PI = Math.PI/2;
 const FPS = 60;
 const cycleDelay = Math.floor(1000 / FPS);
 const roomBoarder = 0.05;
+const base_url = 'https://api.github.com';
+function get_all_commits_count(owner, repo, sha) {
+	let first_commit = get_first_commit(owner, repo);
+	let compare_url = base_url + '/repos/' + owner + '/' + repo + '/compare/' + first_commit + '...' + sha;
+	let commit_req = httpGet(compare_url);
+	let commit_count = JSON.parse(commit_req)['total_commits'] + 1;
+	console.log('Commit Count: ', commit_count);
+	return commit_count
+}
 const vertion = 1
 
 // images
