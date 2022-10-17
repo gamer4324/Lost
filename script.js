@@ -10,6 +10,7 @@ const HALF_PI = Math.PI/2;
 const FPS = 60;
 const cycleDelay = Math.floor(1000 / FPS);
 const roomBoarder = 0.05;
+const vertion = 1
 
 // images
 var base_image = new Image();
@@ -796,5 +797,5 @@ function gameLoop() {
 	
 	context.fillStyle = 'Black';
 	context.font = '50px Monospace';
-	context.fillText('FPS: ' + fps_rate, 0, 50);
+	context.fillText('FPS: ' + fps_rate + " / Ver" + vertion, 0, 50);
 }window.onload = function() {gen(); console.log("loaded"); gameLoop(); }
