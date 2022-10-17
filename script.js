@@ -44,6 +44,28 @@ class runner {
 			player.vx -= Math.sin(Math.atan2(this.position.x - player.position.x,this.position.y - player.position.y))/16*this.speed/4
 			player.vy -= Math.cos(Math.atan2(this.position.x - player.position.x,this.position.y - player.position.y))/16*this.speed/4
 			curShake = 1
+			player.health -= 1
+		}
+		context.drawImage(this.img,this.position.x + mapOffset.x - this.size.x / 2,this.position.y + mapOffset.y - this.size.y/2,this.size.x,this.size.y)
+	}
+}
+
+class ghost {
+	constructor () {
+		this.speed = player.speed*0.9+randInt(-25,25)
+		this.position = new vector2()
+		this.img = new Image();
+		this.img.src = "assests/enemys/runner.png";
+		this.size = new vector2(roomSize.x/10,roomSize.y/10)
+	}
+
+	update() {
+		if (((this.position.x-mouse.x + mapOffset.x)**2+(this.position.y-mouse.y + mapOffset.y)**2)**0.5 >= (this.size.x)/2) {
+			this.position.x -= Math.sin(Math.atan2(this.position.x - mouse.x + mapOffset.x,this.position.y - mouse.y + mapOffset.y))/16*this.speed
+			this.position.y -= Math.cos(Math.atan2(this.position.x - mouse.x + mapOffset.x,this.position.y - mouse.y + mapOffset.y))/16*this.speed
+		} else {
+			curShake = 1
+			player.health -= 1
 		}
 		context.drawImage(this.img,this.position.x + mapOffset.x - this.size.x / 2,this.position.y + mapOffset.y - this.size.y/2,this.size.x,this.size.y)
 	}
@@ -311,6 +333,7 @@ var player = new Player()
 var floor = 1
 var roomsAmt = floor*3
 var holes = range(mapSize.x * mapSize.y - roomsAmt - 3 ,mapSize.x * mapSize.y - roomsAmt );
+var atempts = 0
 var nextRoom = null
 var lastRoom = null
 var stop = 0
@@ -548,7 +571,6 @@ function makeMap() {
 	}
 };
 
-var atempts = 0
 function gen() {
 	roomsAmt = floor*3
 	holes = range(mapSize.x * mapSize.y - roomsAmt - 10 ,mapSize.x * mapSize.y - roomsAmt );
@@ -588,9 +610,20 @@ function gameLoop() {
 		context.fillStyle = "#1D3F6E";
 		context.fillRect(canvas.width/2-100,canvas.height/2-30,200,60)
 	} else {
+		//health handler
 		if (cycleCount == 0 && player.health < 99) {
 			player.health+=0.1
+		} if (player.health <= 0) {
+			menu = !menu
+			player.health = 100
+			floor = 1
+			enemys = []
+			endRoom = 0
+			player.vx = 0
+			player.vy = 0 
+			gen()
 		}
+
 		//change the title
 		if (def && document.title != "Personal intrest game") {
 			document.title = "Personal intrest game"
@@ -764,6 +797,4 @@ function gameLoop() {
 	context.fillStyle = 'Black';
 	context.font = '50px Monospace';
 	context.fillText('FPS: ' + fps_rate, 0, 50);
-}
-window.onload = function() {gen(); console.log("loaded"); gameLoop(); }
-	
+}window.onload = function() {gen(); console.log("loaded"); gameLoop(); }
