@@ -1,6 +1,4 @@
 // constances
-import {result} from 'version.js';
-console.log(result)
 const canvas = document.getElementById('screen');
 const context = canvas.getContext('2d',{
   willReadFrequently: true,
