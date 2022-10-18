@@ -1,4 +1,6 @@
 // constances
+import {result} from 'version.js';
+console.log(result)
 const canvas = document.getElementById('screen');
 const context = canvas.getContext('2d',{
   willReadFrequently: true,
@@ -10,7 +12,6 @@ const HALF_PI = Math.PI/2;
 const FPS = 60;
 const cycleDelay = Math.floor(1000 / FPS);
 const roomBoarder = 0.05;
-
 // images
 var base_image = new Image();
 base_image.src = "assests/images/exit.png";
