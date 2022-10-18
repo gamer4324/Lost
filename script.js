@@ -26,6 +26,25 @@ for (let img = 1; img <= imgages; img++) {
 }
 
 //classes
+class shooter {
+	constructor (side) {
+		this.speed = player.speed*0.9+randInt(-25,25)
+		this.position = new vector2()
+		this.side = side
+		this.img = new Image();
+		this.img.src = "assests/enemys/runner.png";
+		this.size = new vector2(roomSize.x/10,roomSize.y/10)
+	}
+
+	update() {
+		if (this.side == 1 || this.side == 3) {
+			this.position.x = player.position.x
+		} else {
+			this.position.y = player.position.y
+		}
+	}
+}
+
 class runner {
 	constructor () {
 		this.speed = player.speed*0.9+randInt(-25,25)
