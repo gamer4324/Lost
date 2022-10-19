@@ -456,13 +456,15 @@ var menu = true
 
 // functions
 function enterRoom() {
-	var a = randInt(1,3)
-	if (a == 1) {
-		enemys.push(new ghost())
-	}if (a == 2) {
-		enemys.push(new shooter())
-	}if (a == 3) {
-		enemys.push(new runner())
+	for (let v = 0; v <= floor-1; v++) {
+		var a = randInt(1,3)
+		if (a == 1) {
+			enemys.push(new ghost())
+		}if (a == 2) {
+			enemys.push(new shooter())
+		}if (a == 3) {
+			enemys.push(new runner())
+		}
 	}
 }
 
@@ -675,6 +677,7 @@ function gameLoop() {
 			player.health = 100
 			floor = 1
 			enemys = []
+			bullets = []
 			endRoom = 0
 			player.vx = 0
 			player.vy = 0 
@@ -741,6 +744,8 @@ function gameLoop() {
 			if (keys[32]) if (map.get(Math.floor(player.position.x / roomSize.x),Math.floor(player.position.y / roomSize.y)).roomData[1].length == 0) {
 				floor++; 
 				zoom =0; 
+				enemys = []
+				bullets = []
 				gen();
 				curShake = 50;
 			}
