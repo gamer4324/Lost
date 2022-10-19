@@ -32,7 +32,7 @@ class shooter {
 		this.position = new vector2()
 		this.side = randInt(1,4)
 		this.img = new Image();
-		this.img.src = "assests/enemys/runner.png";
+		this.img.src = "assests/enemys/shooter.png";
 		this.size = new vector2(roomSize.x/10,roomSize.y/10)
 		this.canShoot = true
 		this.count = 0
@@ -98,7 +98,7 @@ class ghost {
 		this.speed = player.speed*0.9+randInt(-25,25)
 		this.position = new vector2()
 		this.img = new Image();
-		this.img.src = "assests/enemys/runner.png";
+		this.img.src = "assests/enemys/ghost.png";
 		this.size = new vector2(roomSize.x/10,roomSize.y/10)
 	}
 
