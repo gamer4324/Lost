@@ -27,21 +27,46 @@ for (let img = 1; img <= imgages; img++) {
 
 //classes
 class shooter {
-	constructor (side) {
+	constructor () {
 		this.speed = player.speed*0.9+randInt(-25,25)
 		this.position = new vector2()
-		this.side = side
+		this.side = randInt(1,4)
 		this.img = new Image();
 		this.img.src = "assests/enemys/runner.png";
 		this.size = new vector2(roomSize.x/10,roomSize.y/10)
+		this.canShoot = true
+		this.count = 0
 	}
 
 	update() {
+		this.count++;
+		if (this.count >= 60) this.count = 0;
+		if (this.count % 60 == 0) this.canShoot = true
+
 		if (this.side == 1 || this.side == 3) {
-			this.position.x = player.position.x
+			this.position.x = lerp(this.position.x,player.position.x,0.01*this.speed)
 		} else {
-			this.position.y = player.position.y
+			this.position.y = lerp(this.position.y,player.position.y,0.01*this.speed)
 		}
+
+		if (this.canShoot) {
+			this.canShoot = !this.canShoot
+
+			if (this.side == 1) {
+				this.position.y = Math.floor(player.position.y / roomSize.y) * roomSize.y + roomSize.y*0.9
+			}if (this.side == 2){
+				this.position.x = Math.floor(player.position.x / roomSize.x) * roomSize.x + roomSize.x*0.1
+			}if (this.side == 3){
+				this.position.y = Math.floor(player.position.y / roomSize.y) * roomSize.y + roomSize.y*0.1
+			}if (this.side == 4){
+				this.position.x = Math.floor(player.position.x / roomSize.x) * roomSize.x + roomSize.x*0.9
+			}
+
+			var a = bullets.push(new bullet(this.side))
+			bullets[a-1].position.x = this.position.x
+			bullets[a-1].position.y = this.position.y
+		}
+		context.drawImage(this.img,this.position.x + mapOffset.x - this.size.x / 2,this.position.y + mapOffset.y - this.size.y/2,this.size.x,this.size.y)
 	}
 }
 
@@ -304,11 +329,13 @@ class Grid {
 }
 
 class bullet {
-	constructor (direction) {
-		this.position = new vector2(player.position.x,player.position.y)
+	constructor (direction,type,position = new vector2(player.position.x,player.position.y)) {
+		this.position = position
 		this.direction = direction
+		this.type = type
 		this.speed = roomSize.x/20
 	}
+
 	draw(pos) {
 		if (this.direction == 1) {
 			this.position.y -= this.speed
@@ -323,8 +350,8 @@ class bullet {
 		if (data[0] != 0 || data[1] != 0 || data[2] != 0){
 			context.fillStyle = 'Green';
 			context.beginPath();
-		    context.arc(this.position.x+canvas.width / 2 - roomSize.x/2 - camOffset.x, this.position.y+canvas.height / 2 - roomSize.y/2 - camOffset.y , roomSize.x/80, 0, DOUBLE_PI);
-		    context.fill();
+	    context.arc(this.position.x+canvas.width / 2 - roomSize.x/2 - camOffset.x, this.position.y+canvas.height / 2 - roomSize.y/2 - camOffset.y , roomSize.x/80, 0, DOUBLE_PI);
+	    context.fill();
 		} else {
 			bullets.splice(pos,1)
 		}
@@ -428,6 +455,17 @@ var menu = true
 }
 
 // functions
+function enterRoom() {
+	var a = randInt(1,3)
+	if (a == 1) {
+		enemys.push(new ghost())
+	}if (a == 2) {
+		enemys.push(new shooter())
+	}if (a == 3) {
+		enemys.push(new runner())
+	}
+}
+
 function lerpV2(val1,val2,amt) {
 
 	return new vector2((1 - amt) * val1.x + amt * val2.x,(1 - amt) * val1.y + amt * val2.y)
@@ -518,6 +556,7 @@ function makeMap() {
 			
 			lastDoor = exitDoors[0]
 			var r = makeRoom("1",position,exitDoors,entrenceDoors)
+			r.entered = true
 			map.set(position.x,position.y,r)
 			lastRoom = r;
 			player.position = new vector2(position.x * roomSize.x + roomSize.x/2 , position.y * roomSize.y + roomSize.y/2)
@@ -776,7 +815,10 @@ function gameLoop() {
 			plrY = Math.floor(player.position.y / roomSize.y)
 			if (nextRoom) nextRoom.next = false
 			if (map.get(plrX,plrY) != 0) {
-				map.get(plrX,plrY).entered = true
+				if (map.get(plrX,plrY).entered == false) {
+					map.get(plrX,plrY).entered = true
+					enterRoom()
+				}
 				var a = map.get(plrX,plrY).roomData[1][0]
 				if (a == 1 && map.get(plrX,plrY-1).entered == false) {
 					map.get(plrX,plrY-1).next = true
