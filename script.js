@@ -26,54 +26,10 @@ for (let img = 1; img <= imgages; img++) {
 }
 
 //classes
-class shooter {
-	constructor () {
-		this.speed = player.speed*0.9+randInt(-25,25)
-		this.position = new vector2()
-		this.side = randInt(1,4)
-		this.img = new Image();
-		this.img.src = "assests/enemys/shooter.png";
-		this.size = new vector2(roomSize.x/10,roomSize.y/10)
-		this.canShoot = true
-		this.count = 0
-	}
-
-	update() {
-		this.count++;
-		if (this.count >= 60) this.count = 0;
-		if (this.count % 60 == 0) this.canShoot = true
-
-		if (this.side == 1 || this.side == 3) {
-			this.position.x = lerp(this.position.x,player.position.x,0.01*this.speed)
-		} else {
-			this.position.y = lerp(this.position.y,player.position.y,0.01*this.speed)
-		}
-
-		if (this.canShoot) {
-			this.canShoot = !this.canShoot
-
-			if (this.side == 1) {
-				this.position.y = Math.floor(player.position.y / roomSize.y) * roomSize.y + roomSize.y*0.9
-			}if (this.side == 2){
-				this.position.x = Math.floor(player.position.x / roomSize.x) * roomSize.x + roomSize.x*0.1
-			}if (this.side == 3){
-				this.position.y = Math.floor(player.position.y / roomSize.y) * roomSize.y + roomSize.y*0.1
-			}if (this.side == 4){
-				this.position.x = Math.floor(player.position.x / roomSize.x) * roomSize.x + roomSize.x*0.9
-			}
-
-			var a = bullets.push(new bullet(this.side))
-			bullets[a-1].position.x = this.position.x
-			bullets[a-1].position.y = this.position.y
-		}
-		context.drawImage(this.img,this.position.x + mapOffset.x - this.size.x / 2,this.position.y + mapOffset.y - this.size.y/2,this.size.x,this.size.y)
-	}
-}
-
 class runner {
 	constructor () {
-		this.speed = player.speed*0.9+randInt(-25,25)
-		this.position = new vector2()
+		this.speed = player.speed*0.7*(randInt(8,12)/10)
+		this.position = new vector2(Math.floor(player.position.x / roomSize.x)*roomSize.x+randInt(roomSize.x*0.1,roomSize.x*0.9),Math.floor(player.position.y / roomSize.y)*roomSize.y+randInt(roomSize.y*0.1,roomSize.y*0.9))
 		this.img = new Image();
 		this.img.src = "assests/enemys/runner.png";
 		this.size = new vector2(roomSize.x/10,roomSize.y/10)
@@ -95,8 +51,8 @@ class runner {
 
 class ghost {
 	constructor () {
-		this.speed = player.speed*0.9+randInt(-25,25)
-		this.position = new vector2()
+		this.speed = player.speed*0.7*(randInt(8,12)/10)
+		this.position = new vector2(Math.floor(player.position.x / roomSize.x)*roomSize.x,Math.floor(player.position.y / roomSize.y)*roomSize.y)
 		this.img = new Image();
 		this.img.src = "assests/enemys/ghost.png";
 		this.size = new vector2(roomSize.x/10,roomSize.y/10)
@@ -109,6 +65,50 @@ class ghost {
 		} else {
 			curShake = 1
 			player.health -= 1
+		}
+		context.drawImage(this.img,this.position.x + mapOffset.x - this.size.x / 2,this.position.y + mapOffset.y - this.size.y/2,this.size.x,this.size.y)
+	}
+}
+
+class shooter {
+	constructor () {
+		this.speed = player.speed*0.7*(randInt(8,12)/10)
+		this.position = new vector2(Math.floor(player.position.x / roomSize.x)*roomSize.x,Math.floor(player.position.y / roomSize.y)*roomSize.y)
+		this.side = randInt(1,4)
+		this.img = new Image();
+		this.img.src = "assests/enemys/shooter.png";
+		this.size = new vector2(roomSize.x/10,roomSize.y/10)
+		this.canShoot = true
+		this.count = 0
+	}
+
+	update() {
+		this.count++;
+		if (this.count >= 60) this.count = 0;
+		if (this.count % 60 == 0) this.canShoot = true
+
+		if (this.side == 1 || this.side == 3) {
+			this.position.x = lerp(this.position.x,player.position.x,0.01*(this.speed/16))
+		} else {
+			this.position.y = lerp(this.position.y,player.position.y,0.01*(this.speed/16))
+		}
+
+		if (this.canShoot) {
+			this.canShoot = !this.canShoot
+
+			if (this.side == 1) {
+				this.position.y = Math.floor(player.position.y / roomSize.y) * roomSize.y + roomSize.y*0.9
+			}if (this.side == 2){
+				this.position.x = Math.floor(player.position.x / roomSize.x) * roomSize.x + roomSize.x*0.1
+			}if (this.side == 3){
+				this.position.y = Math.floor(player.position.y / roomSize.y) * roomSize.y + roomSize.y*0.1
+			}if (this.side == 4){
+				this.position.x = Math.floor(player.position.x / roomSize.x) * roomSize.x + roomSize.x*0.9
+			}
+
+			var a = bullets.push(new bullet(this.side,"enemy"))
+			bullets[a-1].position.x = this.position.x
+			bullets[a-1].position.y = this.position.y
 		}
 		context.drawImage(this.img,this.position.x + mapOffset.x - this.size.x / 2,this.position.y + mapOffset.y - this.size.y/2,this.size.x,this.size.y)
 	}
@@ -329,8 +329,8 @@ class Grid {
 }
 
 class bullet {
-	constructor (direction,type,position = new vector2(player.position.x,player.position.y)) {
-		this.position = position
+	constructor (direction,type) {
+		this.position = new vector2(player.position.x,player.position.y)
 		this.direction = direction
 		this.type = type
 		this.speed = roomSize.x/20
@@ -346,6 +346,7 @@ class bullet {
 		} if (this.direction == 4) {
 			this.position.x -= this.speed
 		}
+
 		var data = context.getImageData(this.position.x+canvas.width / 2 - roomSize.x/2 - camOffset.x, this.position.y+canvas.height / 2 - roomSize.y/2 - camOffset.y , 1, 1).data;
 		if (data[0] != 0 || data[1] != 0 || data[2] != 0){
 			context.fillStyle = 'Green';
@@ -355,6 +356,24 @@ class bullet {
 		} else {
 			bullets.splice(pos,1)
 		}
+
+		if (this.type == "enemy" && ((this.position.x-player.position.x)**2+(this.position.y-player.position.y)**2)**0.5 <= roomSize.x/10) {
+			curShake = 1
+			player.health -= 5
+			bullets.splice(pos,1)
+		}
+
+		if (this.type == "player") {
+			for (let v in enemys) {
+				if (((this.position.x-enemys[v].position.x)**2+(this.position.y-enemys[v].position.y)**2)**0.5 <= roomSize.x/10) {
+					console.log("hit")
+					enemys.splice(v,1)
+					bullets.splice(pos,1)
+				}
+			}
+		}
+
+		
 	}
 }
 
@@ -736,10 +755,10 @@ function gameLoop() {
 			if (keys[68]) player.strafe += 1
 			if (keys[65]) player.strafe -= 1
 
-			if (keys[38] && !db) {db = true; bullets.push(new bullet(1)); curShake += 1}
-			if (keys[39] && !db) {db = true; bullets.push(new bullet(2)); curShake += 1}
-			if (keys[40] && !db) {db = true; bullets.push(new bullet(3)); curShake += 1}
-			if (keys[37] && !db) {db = true; bullets.push(new bullet(4)); curShake += 1}
+			if (keys[38] && !db) {db = true; bullets.push(new bullet(1,"player")); curShake += 1}
+			if (keys[39] && !db) {db = true; bullets.push(new bullet(2,"player")); curShake += 1}
+			if (keys[40] && !db) {db = true; bullets.push(new bullet(3,"player")); curShake += 1}
+			if (keys[37] && !db) {db = true; bullets.push(new bullet(4,"player")); curShake += 1}
 
 			if (keys[32]) if (map.get(Math.floor(player.position.x / roomSize.x),Math.floor(player.position.y / roomSize.y)).roomData[1].length == 0) {
 				floor++; 
