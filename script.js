@@ -16,6 +16,8 @@ base_image.src = "assests/images/exit.png";
 
 var startInfo = new Image()
 startInfo.src = "assests/images/start.png";
+var startInfo2 = new Image()
+startInfo2.src = "assests/images/start2.png";
 
 var imgages = 1
 var decorationImages = []
@@ -28,7 +30,7 @@ for (let img = 1; img <= imgages; img++) {
 //classes
 class runner {
 	constructor () {
-		this.speed = player.speed*0.7*(randInt(8,12)/10)
+		this.speed = player.speed*0.7*(randInt(800,1200)/1000)
 		this.position = new vector2(Math.floor(player.position.x / roomSize.x)*roomSize.x+randInt(roomSize.x*0.1,roomSize.x*0.9),Math.floor(player.position.y / roomSize.y)*roomSize.y+randInt(roomSize.y*0.1,roomSize.y*0.9))
 		this.img = new Image();
 		this.img.src = "assests/enemys/runner.png";
@@ -51,8 +53,8 @@ class runner {
 
 class ghost {
 	constructor () {
-		this.speed = player.speed*0.7*(randInt(8,12)/10)
-		this.position = new vector2(Math.floor(player.position.x / roomSize.x)*roomSize.x,Math.floor(player.position.y / roomSize.y)*roomSize.y)
+		this.speed = player.speed*0.7*(randInt(800,1200)/1000)
+		this.position = new vector2(Math.floor(player.position.x / roomSize.x)*roomSize.x+randInt(roomSize.x*0.1,roomSize.x*0.9),Math.floor(player.position.y / roomSize.y)*roomSize.y+randInt(roomSize.y*0.1,roomSize.y*0.9))
 		this.img = new Image();
 		this.img.src = "assests/enemys/ghost.png";
 		this.size = new vector2(roomSize.x/10,roomSize.y/10)
@@ -64,7 +66,7 @@ class ghost {
 			this.position.y -= Math.cos(Math.atan2(this.position.x - mouse.x + mapOffset.x,this.position.y - mouse.y + mapOffset.y))/16*this.speed
 		} else {
 			curShake = 1
-			player.health -= 1
+			player.health -= 1.5
 		}
 		context.drawImage(this.img,this.position.x + mapOffset.x - this.size.x / 2,this.position.y + mapOffset.y - this.size.y/2,this.size.x,this.size.y)
 	}
@@ -72,8 +74,8 @@ class ghost {
 
 class shooter {
 	constructor () {
-		this.speed = player.speed*0.7*(randInt(8,12)/10)
-		this.position = new vector2(Math.floor(player.position.x / roomSize.x)*roomSize.x,Math.floor(player.position.y / roomSize.y)*roomSize.y)
+		this.speed = player.speed*0.7*(randInt(800,1200)/1000)
+		this.position = new vector2(Math.floor(player.position.x / roomSize.x)*roomSize.x+randInt(roomSize.x*0.1,roomSize.x*0.9),Math.floor(player.position.y / roomSize.y)*roomSize.y+randInt(roomSize.y*0.1,roomSize.y*0.9))
 		this.side = randInt(1,4)
 		this.img = new Image();
 		this.img.src = "assests/enemys/shooter.png";
@@ -165,25 +167,33 @@ class room {
 				  var pos = new vector2(this.base.position.x + roomSize.x / 2 - roomSize.x / 20  - camOffset.x,this.base.position.y - camOffset.y)
 				  var size = new vector2(roomSize.x/10,roomSize.y/10)
 				  var rec = new rect(pos,size)
-				  rec.draw("#dadada")
+				  if (enemys.length == 0) {
+					  rec.draw("#dadada")
+				  }
 				}
 				if (this.roomData[1][exit] == 2) {
 				  var pos = new vector2(this.base.position.x + roomSize.x - roomSize.x / 20 - camOffset.x,this.base.position.y + roomSize.x / 2 - roomSize.y / 20 - camOffset.y)
 				  var size = new vector2(roomSize.x/10,roomSize.y/10)
 				  var rec = new rect(pos,size)
-				  rec.draw("#dadada")
+				  if (enemys.length == 0) {
+					  rec.draw("#dadada")
+				  }
 				}
 				if (this.roomData[1][exit] == 3) {
 				  var pos = new vector2(this.base.position.x + roomSize.x / 2 - roomSize.x / 20 - camOffset.x,this.base.position.y + roomSize.y - roomSize.y / 20 - camOffset.y)
 				  var size = new vector2(roomSize.x/10,roomSize.y/10)
 				  var rec = new rect(pos,size)
-				  rec.draw("#dadada")
+				  if (enemys.length == 0) {
+					  rec.draw("#dadada")
+				  }
 				}
 				if (this.roomData[1][exit] == 4) {
 				  var pos = new vector2(this.base.position.x - camOffset.x,this.base.position.y + roomSize.x / 2 - roomSize.y / 20 - camOffset.y)
 				  var size = new vector2(roomSize.x/10,roomSize.y/10)
 				  var rec = new rect(pos,size)
-				  rec.draw("#dadada")
+				  if (enemys.length == 0) {
+					  rec.draw("#dadada")
+				  }
 				}
 			}
 			for (let exit in this.roomData[2]) {
@@ -227,25 +237,33 @@ class room {
 				  var pos = new vector2(this.base.position.x+roomSize.x/2-roomSize.x/20 - camOffset.x,this.base.position.y - camOffset.y)
 				  var size = new vector2(roomSize.x/10,roomSize.y/10)
 				  var rec = new rect(pos,size)
-				  rec.draw("#1a1a1a")
+				  if (enemys.length == 0) {
+					  rec.draw("#1a1a1a")
+				  }
 				}
 				if (this.roomData[2][exit] == 2) {
 				  var pos = new vector2(this.base.position.x+roomSize.x-roomSize.x/20 - camOffset.x,this.base.position.y+roomSize.x/2-roomSize.y/20 - camOffset.y)
 				  var size = new vector2(roomSize.x/10,roomSize.y/10)
 				  var rec = new rect(pos,size)
-				  rec.draw("#1a1a1a")
+				  if (enemys.length == 0) {
+					  rec.draw("#1a1a1a")
+				  }
 				}
 				if (this.roomData[2][exit] == 3) {
 				  var pos = new vector2(this.base.position.x+roomSize.x/2-roomSize.x/20 - camOffset.x,this.base.position.y+roomSize.y-roomSize.y/20 - camOffset.y)
 				  var size = new vector2(roomSize.x/10,roomSize.y/10)
 				  var rec = new rect(pos,size)
-				  rec.draw("#1a1a1a")
+				  if (enemys.length == 0) {
+					  rec.draw("#1a1a1a")
+				  }
 				}
 				if (this.roomData[2][exit] == 4) {
 				  var pos = new vector2(this.base.position.x - camOffset.x,this.base.position.y+roomSize.x/2-roomSize.y/20 - camOffset.y)
 				  var size = new vector2(roomSize.x/10,roomSize.y/10)
 				  var rec = new rect(pos,size)
-				  rec.draw("#1a1a1a")
+				  if (enemys.length == 0) {
+					  rec.draw("#1a1a1a")
+				  }
 				}
 			}
 		} 
@@ -359,7 +377,7 @@ class bullet {
 
 		if (this.type == "enemy" && ((this.position.x-player.position.x)**2+(this.position.y-player.position.y)**2)**0.5 <= roomSize.x/10) {
 			curShake = 1
-			player.health -= 5
+			player.health -= 34
 			bullets.splice(pos,1)
 		}
 
@@ -423,19 +441,38 @@ var menu = true
 // events
 {
 	document.addEventListener("click", (event) => {
-	    if (menu && canvas.width/2-100<event.x && event.x<canvas.width/2+100) {
-			if (canvas.height/2-30<event.y && event.y<canvas.height/2+30) {	
+	  if (menu) {
+			if (canvas.height/2-30<event.y && event.y<canvas.height/2+30 && canvas.width/2-100<event.x && event.x<canvas.width/2+100) {	
 				menu = !menu
 			}
+		} else {
+      var di = 9999999999
+			var a = 0
+			for (let v of range(1,4)) {
+		    let o = new vector2()
+		    
+		    if (v==1){
+		        o.y -= 5
+		    }if (v==2){
+		       o.x += 5
+		    }if (v==3){
+		        o.y += 5
+		    }if (v==4){
+		        o.x -= 5
+		    }
+		    
+		    if (distance(new vector2(player.position.x+mapOffset.x+o.x,player.position.y+mapOffset.y+o.y),mouse) <= di) {
+		        di = distance(new vector2(player.position.x+mapOffset.x+o.x,player.position.y+mapOffset.y+o.y),mouse)
+		        a = v
+		    }
+			}
+			if (!db) {db = true; bullets.push(new bullet(a,"player")); curShake += 1} 
 		}
 	});
 
 	document.addEventListener("mousemove", (event) => {
 		mouse.x = event.x
 		mouse.y = event.y
-	});
-
-	document.addEventListener('mousemove', (event) => {
 		def = true
 	});
 
@@ -474,15 +511,21 @@ var menu = true
 }
 
 // functions
-function enterRoom() {
-	for (let v = 0; v <= floor-1; v++) {
-		var a = randInt(1,3)
-		if (a == 1) {
-			enemys.push(new ghost())
-		}if (a == 2) {
-			enemys.push(new shooter())
-		}if (a == 3) {
-			enemys.push(new runner())
+function distance(pos1,pos2) {
+	return Math.sqrt((pos1.x-pos2.x)**2+(pos1.y-pos2.y)**2)
+}
+
+function enterRoom(room) {
+	if (room.roomData[1].length+room.roomData[2].length >= 2) {
+		for (let v = 0; v <= floor-1; v++) {
+			var a = randInt(1,3)
+			if (a == 1) {
+				enemys.push(new ghost())
+			}if (a == 2) {
+				enemys.push(new shooter())
+			}if (a == 3) {
+				enemys.push(new runner())
+			}
 		}
 	}
 }
@@ -738,6 +781,8 @@ function gameLoop() {
 			}
 			if (floor == 1) {
 				context.drawImage(startInfo,canvas.width / 2 - roomSize.x/2 + roomSize.x * roomBoarder - camOffset.x,canvas.height / 2 - roomSize.y/2 +roomSize.y * roomBoarder - camOffset.y,roomSize.x-roomSize.x*(roomBoarder*2),roomSize.y-roomSize.y*(roomBoarder*2))
+			} if (floor == 2) {
+				context.drawImage(startInfo2,canvas.width / 2 - roomSize.x/2 + roomSize.x * roomBoarder - camOffset.x,canvas.height / 2 - roomSize.y/2 +roomSize.y * roomBoarder - camOffset.y,roomSize.x-roomSize.x*(roomBoarder*2),roomSize.y-roomSize.y*(roomBoarder*2))
 			}
 		}
 		
@@ -841,7 +886,7 @@ function gameLoop() {
 			if (map.get(plrX,plrY) != 0) {
 				if (map.get(plrX,plrY).entered == false) {
 					map.get(plrX,plrY).entered = true
-					enterRoom()
+					enterRoom(map.get(plrX,plrY))
 				}
 				var a = map.get(plrX,plrY).roomData[1][0]
 				if (a == 1 && map.get(plrX,plrY-1).entered == false) {
