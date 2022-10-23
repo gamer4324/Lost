@@ -927,7 +927,7 @@ function gameLoop() {
 
 	setTimeout(gameLoop, cycleDelay);
 	
-	context.fillStyle = 'Black';
+	context.fillStyle = '#ffffff';
 	context.font = '50px Monospace';
 	context.fillText('FPS: ' + fps_rate, 0, 50);
 }window.onload = function() {gen(); console.log("loaded"); gameLoop(); }
