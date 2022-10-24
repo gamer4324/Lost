@@ -440,7 +440,6 @@ var look = 0
 var plrX = 0
 var plrY = 0
 var menu = true
-var enterdRooms = 0
 
 // events
 {
@@ -520,8 +519,7 @@ function distance(pos1,pos2) {
 }
 
 function enterRoom(room) {
-	enterdRooms++
-	if (room.roomData[1].length+room.roomData[2].length >= 2  && ) {
+	if (room.roomData[1].length+room.roomData[2].length >= 2) {
 		for (let v = 0; v <= floor-1; v++) {
 			var a = randInt(1,3)
 			if (a == 1) {
