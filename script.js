@@ -3,6 +3,7 @@ const canvas = document.getElementById('screen');
 const context = canvas.getContext('2d',{
   willReadFrequently: true,
 });
+
 const WIDTH = 400;
 const HEIGHT = 400;
 const DOUBLE_PI = 2 * Math.PI;
