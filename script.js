@@ -278,11 +278,6 @@ class room {
 
 		if (this.roomData[1].length != 0 && this.roomData[2].length != 0 && this.entered) {
 			for (let v in this.roomData[0]) {
-				
-				context.fillStyle = "#"+Math.floor(lerp(255,16,player.health/100)).toString(16)+Math.floor(lerp(16,255,player.health/100)).toString(16)+"00";
-				context.beginPath();
-				context.arc(this.base.position.x + this.base.size.x * 0 + canvas.width / 2 - roomSize.x/2 - camOffset.x - (this.roomData[0][v].size.x * (roomSize.x * 0.8)) / 2 + this.roomData[0][v].position.x * (roomSize.x * 0.9), this.base.position.y + this.base.size.y * 0 + canvas.height / 2 - roomSize.y/2 - camOffset.y - (this.roomData[0][v].size.y * (roomSize.y* 0.8)) / 2 + this.roomData[0][v].position.y * (roomSize.y * 0.9), 20, 0, DOUBLE_PI);
-				context.fill();
 
 			  context.drawImage(this.roomData[0][v].img, 
 			  		this.base.position.x + this.base.size.x * 0 + canvas.width / 2 - roomSize.x/2 - camOffset.x - (this.roomData[0][v].size.x * (roomSize.x * 0.8)) / 2 + this.roomData[0][v].position.x * (roomSize.x * 0.9),
@@ -574,8 +569,8 @@ function makeRoom(name, position, exitDoors = [1,2], entrenceDoors = [3,4]) {
 	let Rect = new rect(new vector2(roomSize.x*position.x,roomSize.y*position.y),new vector2(roomSize.x,roomSize.y))
 	let decorations = []
 	for (let V = 0; V <= randInt(0,3); V++) {
-		let size = new vector2(randInt(0,40)/100,randInt(0,40)/100)
-		let pos = new vector2(randInt(0,40)/100,randInt(0,40)/100)
+		let size = new vector2(randInt(20,40)/100,randInt(20,40)/100)
+		let pos = new vector2(randInt(10,90)/100,randInt(10,90)/100)
 		decorations.push(new deco(-1,pos,size))
 	}
 	let roomData = [decorations, exitDoors, entrenceDoors]
