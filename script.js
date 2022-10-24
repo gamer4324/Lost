@@ -278,10 +278,10 @@ class room {
 
 		if (this.roomData[1].length != 0 && this.roomData[2].length != 0 && this.entered) {
 			for (let v in this.roomData[0]) {
-				var scale = new vector2(roomSize.x/2.5,roomSize.x/2.5)
-			  	context.drawImage(this.roomData[0][v].img, 
-			  		canvas.width / 2 - roomSize.x/2 + this.base.position.x - camOffset.x + roomSize.x/2 - scale.x/2,
-			  		canvas.height / 2 - roomSize.y/2 + this.base.position.y - camOffset.y + roomSize.y/2 - scale.y/2,scale.x,scale.y);
+		  	context.drawImage(this.roomData[0][v].img, 
+		  		(canvas.width / 2 - roomSize.x/2 + this.base.position.x - camOffset.x) + roomSize.x*this.roomData[0][v].position.x - roomSize.x*(this.roomData[0][v].size.x/2),
+		  		(canvas.height/ 2 - roomSize.y/2 + this.base.position.y - camOffset.y) + roomSize.y*this.roomData[0][v].position.x - roomSize.y*(this.roomData[0][v].size.y/2),
+		  		(this.roomData[0][v].size.x),(this.roomData[0][v].size.y));
 			}
 		}
 	}
@@ -396,10 +396,13 @@ class bullet {
 }
 
 class deco {
-	constructor(img = 0,position) {
+	constructor(img = -1,position,size) {
 		this.position = position
 		this.img = img
-		if (img == 0) this.img = decorationImages[randInt(0,decorationImages.length-1)]
+		this.size = size
+		if (img == -1) {this.img = decorationImages[randInt(0,decorationImages.length-1)]} else {
+
+		}
 	}
 }
 
@@ -437,6 +440,7 @@ var look = 0
 var plrX = 0
 var plrY = 0
 var menu = true
+var enterdRooms = 0
 
 // events
 {
@@ -516,7 +520,8 @@ function distance(pos1,pos2) {
 }
 
 function enterRoom(room) {
-	if (room.roomData[1].length+room.roomData[2].length >= 2) {
+	enterdRooms++
+	if (room.roomData[1].length+room.roomData[2].length >= 2  && ) {
 		for (let v = 0; v <= floor-1; v++) {
 			var a = randInt(1,3)
 			if (a == 1) {
@@ -558,12 +563,19 @@ function randInt(min,max) {
 	if (min == max) {
 		return min
 	}
-	return min + Math.floor(Math.random() * (max+1-min));
+	return Math.floor(min+0.5) + Math.floor(Math.random() * (Math.floor(max+0.5)+1-Math.floor(min+0.5)));
 }
 
-function makeRoom(name, position, exitDoors = [1,2], entrenceDoors = [3,4], decorations = [new deco(0,new vector2(roomSize.x/2,roomSize.y/2))]) {
-
-	return new room(name, new rect(new vector2(roomSize.x*position.x,roomSize.y*position.y),new vector2(roomSize.x,roomSize.y)), [decorations, exitDoors, entrenceDoors])	
+function makeRoom(name, position, exitDoors = [1,2], entrenceDoors = [3,4]) {
+	let Rect = new rect(new vector2(roomSize.x*position.x,roomSize.y*position.y),new vector2(roomSize.x,roomSize.y))
+	let decorations = []
+	for (let V = 0; V <= randInt(0,3); V++) {
+		let size = vector2(randInt(roomSize.x/randInt(0,40)/100),randInt(roomSize.y/randInt(0,40)/100))
+		let pos = vector2(randInt(roomSize.x/randInt(0,100)/100),randInt(roomSize.y/randInt(0,100)/100))
+		decorations.push(-1,pos,size)
+	}
+	let roomData = [decorations, exitDoors, entrenceDoors]
+	return new room(name, Rect, roomData)	
 };
 
 function makeMap() {
