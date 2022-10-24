@@ -539,8 +539,8 @@ function lerpV2(val1,val2,amt) {
 }
 
 function lerp(val1,val2,amt) {
-
-	return (1 - amt) * val1 + amt * val2
+	let final = (1 - amt) * val1 + amt * val2
+	return final
 }
 
 function delay(time) {
