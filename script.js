@@ -3,7 +3,6 @@ const canvas = document.getElementById('screen');
 const context = canvas.getContext('2d',{
   willReadFrequently: true,
 });
-
 const WIDTH = 400;
 const HEIGHT = 400;
 const DOUBLE_PI = 2 * Math.PI;
@@ -569,9 +568,9 @@ function makeRoom(name, position, exitDoors = [1,2], entrenceDoors = [3,4]) {
 	let Rect = new rect(new vector2(roomSize.x*position.x,roomSize.y*position.y),new vector2(roomSize.x,roomSize.y))
 	let decorations = []
 	for (let V = 0; V <= randInt(0,3); V++) {
-		let size = new vector2(randInt(roomSize.x/randInt(0,40)/100),randInt(roomSize.y/randInt(0,40)/100))
-		let pos = new vector2(randInt(roomSize.x/randInt(0,100)/100),randInt(roomSize.y/randInt(0,100)/100))
-		decorations.push(-1,pos,size)
+		let size = new vector2(randInt(randInt(0,40)/100),randInt(randInt(0,40)/100))
+		let pos = new vector2(randInt(randInt(0,100)/100),randInt(randInt(0,100)/100))
+		decorations.push(new deco(-1,pos,size))
 	}
 	let roomData = [decorations, exitDoors, entrenceDoors]
 	return new room(name, Rect, roomData)	
