@@ -302,7 +302,7 @@ class Player {
 		this.vx = 0
 		this.vy = 0
 		this.maxHealth = 100
-		this.health = maxHealth
+		this.health = this.maxHealth
 	}
 }
 
@@ -411,14 +411,28 @@ class deco {
 }
 
 // varibles
+
+//fps
 var oldCycleTime = 0;
 var cycleCount = 0;
 var fps_rate = '...';
+
+//player
 var mouse =  new vector2();
+var player = new Player()
+var keys = []
+var shootCount = 0
+var shootLimit = 60
+var db = false
+var MaxDash = roomSize.x/10
+var look = 0
+var plrX = 0
+var plrY = 0
+
+//room gen
 var mapSize = new vector2(10,10);
 var map = new Grid(mapSize,0)
 var roomSize = new vector2(WIDTH,HEIGHT);
-var player = new Player()
 var floor = 1
 var roomsAmt = floor*3
 var holes = range(mapSize.x * mapSize.y - roomsAmt - 3 ,mapSize.x * mapSize.y - roomsAmt );
@@ -427,22 +441,16 @@ var nextRoom = null
 var lastRoom = null
 var stop = 0
 var endRoom = 0
+
+//redering
 var def = true
 var camOffset = new vector2()
 var zoom = 0
-var bullets = []
-var keys = []
-var shootCount = 0
-var shootLimit = 60
-var db = false
 var shake = 0
 var curShake = 0
 var enemys = []
+var bullets = []
 var mapOffset = new vector2()
-var MaxDash = roomSize.x/10
-var look = 0
-var plrX = 0
-var plrY = 0
 var menu = true
 
 // events
