@@ -80,14 +80,15 @@ class shooter {
 		this.img = new Image();
 		this.img.src = "assests/enemys/shooter.png";
 		this.size = new vector2(roomSize.x/10,roomSize.y/10)
-		this.canShoot = true
-		this.count = 0
+		this.canShoot = false
+		this.shootLimti = randInt(30,90)
+		this.count = randInt(1,Math.floor(this.shootLimti/2))
 	}
 
 	update() {
 		this.count++;
-		if (this.count >= 60) this.count = 0;
-		if (this.count % 60 == 0) this.canShoot = true
+		if (this.count >= this.shootLimti) this.count = 0;
+		if (this.count % this.shootLimti == 0) this.canShoot = true
 
 		if (this.side == 1 || this.side == 3) {
 			this.position.x = lerp(this.position.x,player.position.x,0.01*(this.speed/16))
@@ -95,18 +96,19 @@ class shooter {
 			this.position.y = lerp(this.position.y,player.position.y,0.01*(this.speed/16))
 		}
 
+
+		if (this.side == 1) {
+			this.position.y = Math.floor(player.position.y / roomSize.y) * roomSize.y + roomSize.y*0.9
+		}if (this.side == 2){
+			this.position.x = Math.floor(player.position.x / roomSize.x) * roomSize.x + roomSize.x*0.1
+		}if (this.side == 3){
+			this.position.y = Math.floor(player.position.y / roomSize.y) * roomSize.y + roomSize.y*0.1
+		}if (this.side == 4){
+			this.position.x = Math.floor(player.position.x / roomSize.x) * roomSize.x + roomSize.x*0.9
+		}
+
 		if (this.canShoot) {
 			this.canShoot = !this.canShoot
-
-			if (this.side == 1) {
-				this.position.y = Math.floor(player.position.y / roomSize.y) * roomSize.y + roomSize.y*0.9
-			}if (this.side == 2){
-				this.position.x = Math.floor(player.position.x / roomSize.x) * roomSize.x + roomSize.x*0.1
-			}if (this.side == 3){
-				this.position.y = Math.floor(player.position.y / roomSize.y) * roomSize.y + roomSize.y*0.1
-			}if (this.side == 4){
-				this.position.x = Math.floor(player.position.x / roomSize.x) * roomSize.x + roomSize.x*0.9
-			}
 
 			var a = bullets.push(new bullet(this.side,"enemy"))
 			bullets[a-1].position.x = this.position.x
@@ -299,7 +301,8 @@ class Player {
 		this.speed = roomSize.x/8;
 		this.vx = 0
 		this.vy = 0
-		this.health = 100
+		this.maxHealth = 100
+		this.health = maxHealth
 	}
 }
 
@@ -378,7 +381,7 @@ class bullet {
 
 		if (this.type == "enemy" && ((this.position.x-player.position.x)**2+(this.position.y-player.position.y)**2)**0.5 <= roomSize.x/10) {
 			curShake = 1
-			player.health -= 34
+			player.health -= 5
 			bullets.splice(pos,1)
 		}
 
@@ -515,13 +518,36 @@ var menu = true
 }
 
 // functions
+function enemyType(flor) {
+	if (flor <= 10) {
+		if (Math.floor(1.5848931924611136**flor) == randInt(Math.floor(1.5848931924611136**flor),100)) {
+			return 2
+		} else {
+			return 1
+		}
+	} else if (flor <= 20) {
+		if (Math.floor(1.5848931924611136**(flor-10)) == randInt(Math.floor(1.5848931924611136**(flor-10)),100)) {
+			return 3
+		} else {
+			return 2
+		}
+	}else if (flor <= 25) {
+		if (Math.floor(2.51188643150958**(flor-20)) == randInt(Math.floor(2.51188643150958**(flor-20)),100)) {
+			return 4
+		} else {
+			return 3
+		}
+	}  
+}
+
 function distance(pos1,pos2) {
 	return Math.sqrt((pos1.x-pos2.x)**2+(pos1.y-pos2.y)**2)
 }
 
 function enterRoom(room) {
 	if (room.roomData[1].length+room.roomData[2].length >= 2) {
-		for (let v = 0; v <= floor-1; v++) {
+		for (let v = 1; v <= floor; v++) {
+			console.log(enemyType(floor))
 			var a = randInt(1,3)
 			if (a == 1) {
 				enemys.push(new ghost())
@@ -743,11 +769,12 @@ function gameLoop() {
 		context.fillRect(canvas.width/2-100,canvas.height/2-30,200,60)
 	} else {
 		//health handler
-		if (cycleCount == 0 && player.health < 99) {
-			player.health+=0.1
-		} if (player.health <= 0) {
+		if (cycleCount == 0 && player.health < player.maxHealth-player.maxHealth/1000) {
+			player.health+=player.maxHealth/1000
+		} 
+		if (player.health <= 0) {
 			menu = !menu
-			player.health = 100
+			player.health = player.maxHealth
 			floor = 1
 			enemys = []
 			bullets = []
@@ -887,7 +914,7 @@ function gameLoop() {
 		
 		// draw player
 		{
-			context.fillStyle = "#"+Math.floor(lerp(255,16,player.health/100)).toString(16)+Math.floor(lerp(16,255,player.health/100)).toString(16)+"00";
+			context.fillStyle = "#"+Math.floor(lerp(255,16,player.health/player.maxHealth)).toString(16)+Math.floor(lerp(16,255,player.health/player.maxHealth)).toString(16)+"00";
 			context.beginPath();
 			context.arc(player.position.x+mapOffset.x, player.position.y+mapOffset.y, roomSize.x/20, 0, DOUBLE_PI);
 			context.fill();
