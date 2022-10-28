@@ -131,13 +131,12 @@ class sheilder {
 		this.sheild = false
 		this.anggle = 0
 	}
-
+	
 	update() {
 		this.count++;
 		if (this.count >= this.countLimti) this.count = 0;
 		if (this.count % this.countLimti == 0) {
 			this.sheild = !this.sheild
-			this.anggle = Math.atan2((this.position.x + mapOffset.x - this.size.x / 2)-(player.position.x+mapOffset.x),(this.position.y + mapOffset.y - this.size.y / 2)-(player.position.y+mapOffset.y))
 			if (this.sheild == true) {
 				this.speed /= 2
 			} else {
@@ -146,10 +145,11 @@ class sheilder {
 		}
 		if (this.sheild == true) { 
 
+			this.anggle = Math.atan2(player.position.x-this.position.x,player.position.y-this.position.y)-Math.PI/2
 			context.beginPath();
 	    context.strokeStyle = "#0000000";
-	    context.arc(player.position.x+mapOffset.x,player.position.y+mapOffset.y,roomSize.x/20*2,-this.anggle+Math.PI/4,-this.anggle+Math.PI/2+Math.PI/4);
-	    context.lineWidth = roomSize.x/20
+	    context.arc((this.position.x + mapOffset.x),(this.position.y + mapOffset.y),roomSize.x/20*2,-this.anggle-Math.PI/4,-this.anggle+Math.PI/4);
+	    context.lineWidth = roomSize.x/10
 			context.stroke();
 
 		}
