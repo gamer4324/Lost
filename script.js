@@ -119,6 +119,55 @@ class shooter {
 	}
 }
 
+class sheilder {
+	constructor () {
+		this.speed = player.speed*0.7*(randInt(800,1200)/1000)
+		this.position = new vector2(Math.floor(player.position.x / roomSize.x)*roomSize.x+randInt(roomSize.x*0.1,roomSize.x*0.9),Math.floor(player.position.y / roomSize.y)*roomSize.y+randInt(roomSize.y*0.1,roomSize.y*0.9))
+		this.img = new Image();
+		this.img.src = "assests/enemys/runner.png";
+		this.size = new vector2(roomSize.x/10,roomSize.y/10)
+		this.countLimti = randInt(30,90)
+		this.count = randInt(1,Math.floor(this.countLimti/2))
+		this.sheild = false
+		this.anggle = 0
+	}
+
+	update() {
+		this.count++;
+		if (this.count >= this.countLimti) this.count = 0;
+		if (this.count % this.countLimti == 0) {
+			this.sheild = !this.sheild
+			this.anggle = Math.atan2((this.position.x + mapOffset.x - this.size.x / 2)-(player.position.x+mapOffset.x),(this.position.y + mapOffset.y - this.size.y / 2)-(player.position.y+mapOffset.y))
+			if (this.sheild == true) {
+				this.speed /= 2
+			} else {
+				this.speed *= 2
+			}
+		}
+		if (this.sheild == true) { 
+
+			context.beginPath();
+	    context.strokeStyle = "#0000000";
+	    context.arc(player.position.x+mapOffset.x,player.position.y+mapOffset.y,roomSize.x/20*2,-this.anggle+Math.PI/4,-this.anggle+Math.PI/2+Math.PI/4);
+	    context.lineWidth = roomSize.x/20
+			context.stroke();
+
+		}
+
+		//move and draw
+		if (((this.position.x-player.position.x)**2+(this.position.y-player.position.y)**2)**0.5 >= (this.size.y+this.size.x)/2) {
+			this.position.x -= Math.sin(Math.atan2(this.position.x - player.position.x,this.position.y - player.position.y))/16*this.speed
+			this.position.y -= Math.cos(Math.atan2(this.position.x - player.position.x,this.position.y - player.position.y))/16*this.speed
+		} else {
+			player.vx -= Math.sin(Math.atan2(this.position.x - player.position.x,this.position.y - player.position.y))/16*this.speed/4
+			player.vy -= Math.cos(Math.atan2(this.position.x - player.position.x,this.position.y - player.position.y))/16*this.speed/4
+			curShake = 1
+			player.health -= 1
+		}
+		context.drawImage(this.img,this.position.x + mapOffset.x - this.size.x / 2,this.position.y + mapOffset.y - this.size.y/2,this.size.x,this.size.y)
+	}
+}
+
 class vector2 {
 	constructor(p1=0,p2=0) {
 		this.x = p1;
@@ -378,6 +427,7 @@ class bullet {
 	    context.fill();
 		} else {
 			bullets.splice(pos,1)
+			return
 		}
 
 		if (this.type == "enemy" && ((this.position.x-player.position.x)**2+(this.position.y-player.position.y)**2)**0.5 <= roomSize.x/10) {
@@ -485,13 +535,13 @@ var menu = true
 	});
 
 	window.addEventListener("keydown",
-	    function(e){
-	        keys[e.keyCode] = true;
+    function(e){
+      keys[e.keyCode] = true;
 			if (e.keyCode == 27) {
 				menu = !menu
 			}
-	    },
-	false);
+    },
+  false);
 
 	window.addEventListener('keyup',
 	    function(e){
