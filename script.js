@@ -1,5 +1,5 @@
 // constances
-alert("running version:"+4)
+alert("running version:"+5)
 const canvas = document.getElementById('screen');
 const context = canvas.getContext('2d',{
   willReadFrequently: true,
@@ -599,7 +599,7 @@ function enterRoom(room) {
 	if (room.roomData[1].length+room.roomData[2].length >= 2) {
 		let dif = enemyType(floor)
 		if (dif == 1) {
-			for (let v = 1; v <= floor) {
+			for (let v = 1; v <= floor;) {
 				v+=10
 				var a = randInt(1,3)
 				if (a == 1) {
@@ -611,7 +611,7 @@ function enterRoom(room) {
 				}
 			}
 		} if (dif == 2) {
-			for (let v = 1; v <= floor) {
+			for (let v = 1; v <= floor;) {
 				v+=10
 				var a = randInt(1,1)
 				if (a == 1) {
