@@ -1,5 +1,5 @@
 // constances
-console.log("running version:"+6)
+console.log("running version:"+7)
 const canvas = document.getElementById('screen');
 const context = canvas.getContext('2d',{
   willReadFrequently: true,
@@ -1032,5 +1032,4 @@ function gameLoop() {
 }window.onload = function() {
 	gen(); 
 	console.log("loaded"); 
-	gameLoop(); 
 }
