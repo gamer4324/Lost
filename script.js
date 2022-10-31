@@ -1,5 +1,5 @@
 // constances
-alert("running version:"+5)
+console.log("running version:"+6)
 const canvas = document.getElementById('screen');
 const context = canvas.getContext('2d',{
   willReadFrequently: true,
@@ -1029,4 +1029,8 @@ function gameLoop() {
 	context.fillStyle = '#ffffff';
 	context.font = '50px Monospace';
 	context.fillText('FPS: ' + fps_rate, 0, 50);
-}window.onload = function() {gen(); console.log("loaded"); gameLoop(); }
+}window.onload = function() {
+	gen(); 
+	console.log("loaded"); 
+	gameLoop(); 
+}
